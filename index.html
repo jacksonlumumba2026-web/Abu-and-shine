@@ -1,963 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Abu-Shine | Premium Cleaning & Fumigation Services</title>
-<meta name="description" content="Abu-Shine — Kenya's most trusted professional cleaning and pest control company. Serving homes, offices, hotels & schools with guaranteed results."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<style>
-/* ════════════════════════════════════════════════════
-   ROOT & RESET
-════════════════════════════════════════════════════ */
-:root{
-  --g1:#0a2e18; --g2:#0d3d22; --g3:#155c32; --g4:#1a7a42;
-  --gold:#d4a843; --gold2:#f0c865; --gold3:#fff3c4;
-  --white:#fff; --off:#f8faf8; --mist:#eef4f0;
-  --ink:#0f1a14; --gray:#5a6b62; --lgray:#dde8e1;
-  --r:16px; --r2:24px; --r3:40px;
-  --ease:cubic-bezier(.25,.46,.45,.94);
-  --spring:cubic-bezier(.34,1.56,.64,1);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;overflow-x:hidden}
-body{font-family:'Inter',sans-serif;background:var(--off);color:var(--ink);overflow-x:hidden;cursor:none}
-h1,h2,h3,h4{font-family:'Syne',sans-serif;line-height:1.1;letter-spacing:-0.02em}
-a{text-decoration:none;color:inherit}
-img{display:block;max-width:100%}
-::selection{background:var(--gold);color:var(--ink)}
-
-/* ════════════════════════════════════════════════════
-   CUSTOM CURSOR
-════════════════════════════════════════════════════ */
-#cursor{
-  position:fixed;width:12px;height:12px;border-radius:50%;
-  background:var(--gold);pointer-events:none;z-index:99999;
-  transform:translate(-50%,-50%);transition:transform .1s,width .25s var(--spring),height .25s var(--spring),background .25s;
-  mix-blend-mode:difference;
-}
-#cursor-ring{
-  position:fixed;width:40px;height:40px;border-radius:50%;
-  border:1.5px solid rgba(212,168,67,.5);pointer-events:none;z-index:99998;
-  transform:translate(-50%,-50%);transition:left .12s var(--ease),top .12s var(--ease),width .3s var(--spring),height .3s var(--spring),opacity .3s;
-}
-body:hover #cursor{opacity:1}
-.cursor-expand #cursor{width:48px;height:48px;background:rgba(212,168,67,.15)}
-.cursor-expand #cursor-ring{width:64px;height:64px;opacity:0}
-
-/* ════════════════════════════════════════════════════
-   LOADER
-════════════════════════════════════════════════════ */
-#loader{
-  position:fixed;inset:0;z-index:9999;background:var(--g1);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
-  transition:opacity .8s var(--ease),visibility .8s;
-}
-#loader.out{opacity:0;visibility:hidden}
-.ld-logo{
-  font-family:'Syne',sans-serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:800;
-  color:var(--white);letter-spacing:-0.03em;
-  background:linear-gradient(135deg,var(--white) 0%,var(--gold2) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  opacity:0;animation:ldIn .7s .2s var(--spring) forwards;
-}
-.ld-sub{
-  font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;
-  color:rgba(255,255,255,.4);margin-top:6px;margin-bottom:48px;
-  opacity:0;animation:ldIn .7s .4s var(--ease) forwards;
-}
-.ld-bar{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
-.ld-fill{height:100%;width:0;background:linear-gradient(90deg,var(--g4),var(--gold));border-radius:2px;animation:lfill 1.8s .5s var(--ease) forwards}
-@keyframes ldIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes lfill{to{width:100%}}
-
-/* ════════════════════════════════════════════════════
-   PARTICLES CANVAS
-════════════════════════════════════════════════════ */
-#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
-
-/* ════════════════════════════════════════════════════
-   NAV
-════════════════════════════════════════════════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  padding:0 6%;height:76px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:background .4s var(--ease),box-shadow .4s,backdrop-filter .4s;
-}
-nav.solid{
-  background:rgba(8,20,12,.88);
-  backdrop-filter:blur(24px) saturate(200%);
-  -webkit-backdrop-filter:blur(24px) saturate(200%);
-  box-shadow:0 1px 0 rgba(212,168,67,.15),0 8px 32px rgba(0,0,0,.3);
-}
-.nav-left{display:flex;align-items:center;gap:14px}
-
-/* Logo box */
-.logo-box{
-  width:50px;height:50px;border-radius:12px;
-  border:1.5px dashed rgba(212,168,67,.6);
-  background:rgba(212,168,67,.06);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;cursor:pointer;transition:all .25s var(--spring);position:relative;
-  overflow:hidden;
-}
-.logo-box::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(212,168,67,.1),transparent);
-  opacity:0;transition:opacity .25s;
-}
-.logo-box:hover{border-color:var(--gold2);transform:scale(1.05)}
-.logo-box:hover::before{opacity:1}
-.logo-box-icon{font-size:1.1rem;line-height:1;color:var(--gold)}
-.logo-box-txt{font-size:.45rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(212,168,67,.7)}
-.logo-box-tip{
-  position:absolute;bottom:-36px;left:50%;transform:translateX(-50%);
-  background:rgba(0,0,0,.85);color:white;white-space:nowrap;padding:5px 12px;
-  border-radius:6px;font-size:.65rem;font-weight:600;font-family:'Inter',sans-serif;
-  opacity:0;transition:opacity .2s;pointer-events:none;z-index:10;
-}
-.logo-box:hover .logo-box-tip{opacity:1}
-
-.brand-text{}
-.brand-name{font-family:'Syne',sans-serif;font-size:1.22rem;font-weight:800;color:var(--white);letter-spacing:-0.02em;line-height:1;display:block}
-.brand-name span{color:var(--gold2)}
-.brand-sub{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-top:2px}
-
-.nav-links{display:flex;align-items:center;gap:6px;list-style:none}
-.nav-links a{
-  color:rgba(255,255,255,.7);font-size:.84rem;font-weight:500;
-  padding:8px 14px;border-radius:30px;transition:all .2s;
-  position:relative;
-}
-.nav-links a:hover{color:var(--white);background:rgba(255,255,255,.08)}
-.nav-cta{
-  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);
-  color:var(--ink)!important;font-weight:700!important;font-size:.83rem!important;
-  padding:10px 22px!important;border-radius:30px;
-  box-shadow:0 4px 20px rgba(212,168,67,.35);
-  transition:all .25s var(--spring)!important;
-  display:inline-flex;align-items:center;gap:6px;
-}
-.nav-cta:hover{transform:translateY(-2px)!important;box-shadow:0 8px 32px rgba(212,168,67,.5)!important;background:rgba(255,255,255,.08)!important;color:var(--gold2)!important}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:rgba(255,255,255,.08);border-radius:8px}
-.hamburger span{width:22px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:all .3s}
-.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-.mob-menu{
-  display:none;position:fixed;top:76px;left:0;right:0;z-index:999;
-  background:rgba(8,20,12,.96);backdrop-filter:blur(24px);
-  padding:28px 6%;border-bottom:1px solid rgba(212,168,67,.15);
-}
-.mob-menu.open{display:block;animation:slideDown .3s var(--ease)}
-@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
-.mob-menu a{display:block;padding:14px 0;color:rgba(255,255,255,.8);font-size:.95rem;font-weight:500;border-bottom:1px solid rgba(255,255,255,.06);transition:color .2s}
-.mob-menu a:last-child{border:none;color:var(--gold2);font-weight:700;margin-top:8px}
-
-/* ════════════════════════════════════════════════════
-   HERO — FULL CINEMATIC
-════════════════════════════════════════════════════ */
-#hero{
-  min-height:100vh;position:relative;overflow:hidden;
-  display:flex;align-items:center;
-  background:radial-gradient(ellipse 120% 80% at 50% 100%,rgba(21,92,50,.6) 0%,transparent 60%),
-             linear-gradient(175deg,#020d06 0%,#041208 25%,#071a0e 50%,#0a2516 75%,#0d3020 100%);
-}
-
-/* Animated mesh gradient */
-.hero-mesh{
-  position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 60% 50% at 70% 30%,rgba(212,168,67,.07) 0%,transparent 60%),
-    radial-gradient(ellipse 40% 40% at 20% 70%,rgba(21,92,50,.15) 0%,transparent 55%),
-    radial-gradient(ellipse 30% 30% at 80% 80%,rgba(212,168,67,.04) 0%,transparent 50%);
-  animation:meshMove 12s ease-in-out infinite alternate;
-}
-@keyframes meshMove{
-  0%{transform:scale(1) translateX(0)}
-  100%{transform:scale(1.08) translateX(-20px)}
-}
-
-/* Grid overlay */
-.hero-grid{
-  position:absolute;inset:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:80px 80px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 80%);
-}
-
-/* Glow orbs */
-.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat ease-in-out infinite}
-.orb1{width:500px;height:500px;background:rgba(21,92,50,.25);top:-100px;left:-100px;animation-duration:16s;animation-delay:0s}
-.orb2{width:400px;height:400px;background:rgba(212,168,67,.1);top:30%;right:-80px;animation-duration:12s;animation-delay:-4s}
-.orb3{width:300px;height:300px;background:rgba(26,122,66,.2);bottom:-50px;left:30%;animation-duration:14s;animation-delay:-8s}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-40px) scale(1.1)}}
-
-.hero-inner{
-  position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;
-  padding:0 6%;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;
-  padding-top:76px;
-}
-
-/* Left */
-.hero-left{}
-.hero-pill{
-  display:inline-flex;align-items:center;gap:10px;
-  border:1px solid rgba(212,168,67,.3);
-  background:rgba(212,168,67,.07);
-  border-radius:30px;padding:8px 18px;margin-bottom:28px;
-  animation:heroUp .8s .1s var(--spring) both;
-}
-.hero-pill-dot{width:7px;height:7px;border-radius:50%;background:var(--gold2);animation:blinkDot 1.6s infinite}
-@keyframes blinkDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
-.hero-pill span{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
-
-h1.hero-h1{
-  font-size:clamp(3rem,6.5vw,5.2rem);font-weight:800;color:var(--white);
-  margin-bottom:10px;line-height:1.04;letter-spacing:-0.03em;
-  animation:heroUp .8s .2s var(--spring) both;
-}
-h1.hero-h1 .line2{
-  display:block;
-  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,#fff9e0 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  font-style:italic;
-}
-.hero-sub{
-  font-size:1.05rem;color:rgba(255,255,255,.6);line-height:1.8;font-weight:300;
-  max-width:480px;margin-bottom:40px;
-  animation:heroUp .8s .3s var(--spring) both;
-}
-.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:heroUp .8s .4s var(--spring) both}
-
-/* Magnetic button */
-.btn-mag{
-  position:relative;display:inline-flex;align-items:center;gap:10px;
-  padding:16px 32px;border-radius:50px;font-size:.92rem;font-weight:700;
-  cursor:pointer;transition:all .3s var(--spring);overflow:hidden;
-}
-.btn-mag::before{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.btn-mag:hover::before{opacity:1}
-.btn-primary-mag{
-  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);
-  color:var(--ink);box-shadow:0 6px 28px rgba(212,168,67,.4);
-}
-.btn-primary-mag:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 40px rgba(212,168,67,.55)}
-.btn-secondary-mag{
-  border:1.5px solid rgba(255,255,255,.25);color:var(--white);
-  background:rgba(255,255,255,.05);backdrop-filter:blur(8px);
-}
-.btn-secondary-mag:hover{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);transform:translateY(-3px)}
-
-/* Stats row */
-.hero-stats{
-  display:flex;align-items:center;gap:0;margin-top:52px;
-  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);
-  backdrop-filter:blur(12px);border-radius:20px;padding:20px 24px;
-  animation:heroUp .8s .5s var(--spring) both;width:fit-content;
-}
-.hstat{text-align:center;padding:0 28px;position:relative}
-.hstat+.hstat::before{content:'';position:absolute;left:0;top:10%;bottom:10%;width:1px;background:rgba(255,255,255,.1)}
-.hstat-n{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--gold2);line-height:1;display:block}
-.hstat-l{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-top:4px}
-
-/* Right side — logo frame */
-.hero-right{display:flex;flex-direction:column;align-items:center;gap:20px;animation:heroUp .9s .25s var(--spring) both}
-.logo-hero-frame{
-  width:100%;max-width:340px;aspect-ratio:1;border-radius:var(--r2);
-  position:relative;cursor:pointer;
-  border:1.5px dashed rgba(212,168,67,.4);
-  background:rgba(255,255,255,.03);backdrop-filter:blur(8px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-  transition:all .3s var(--spring);overflow:hidden;
-}
-.logo-hero-frame::before{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(212,168,67,.06) 0%,transparent 60%);
-}
-.logo-hero-frame:hover{border-color:var(--gold2);transform:scale(1.02);box-shadow:0 0 60px rgba(212,168,67,.15)}
-/* rotating ring */
-.logo-ring{
-  position:absolute;inset:-1px;border-radius:inherit;
-  background:conic-gradient(from 0deg,transparent 70%,rgba(212,168,67,.5) 85%,transparent 100%);
-  animation:ringRotate 4s linear infinite;opacity:0;transition:opacity .3s;
-}
-.logo-hero-frame:hover .logo-ring{opacity:1}
-@keyframes ringRotate{to{transform:rotate(360deg)}}
-.logo-hero-icon{font-size:3.5rem;position:relative;z-index:1;opacity:.5}
-.logo-hero-label{font-size:.8rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;font-weight:600;text-align:center;line-height:1.7;position:relative;z-index:1}
-.logo-upload-cta{
-  position:relative;z-index:1;
-  background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.35);
-  color:var(--gold2);padding:9px 22px;border-radius:24px;font-size:.78rem;font-weight:700;
-  letter-spacing:.06em;cursor:pointer;font-family:'Inter',sans-serif;
-  transition:all .25s var(--spring);
-}
-.logo-upload-cta:hover{background:rgba(212,168,67,.3);transform:translateY(-2px)}
-.logo-hero-caption{font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.06em;text-align:center}
-
-/* Floating badges */
-.float-badge{
-  position:absolute;background:rgba(8,20,12,.9);backdrop-filter:blur(16px);
-  border:1px solid rgba(212,168,67,.2);border-radius:16px;
-  padding:12px 16px;display:flex;align-items:center;gap:10px;z-index:3;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
-}
-.fb1{top:16px;right:-20px;animation:fbFloat 3s ease-in-out infinite}
-.fb2{bottom:20px;left:-20px;animation:fbFloat 3s ease-in-out infinite;animation-delay:-1.5s}
-@keyframes fbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.fb-icon{font-size:1.4rem}
-.fb-n{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--gold2);line-height:1}
-.fb-t{font-size:.65rem;color:rgba(255,255,255,.5);font-weight:500;line-height:1.4}
-
-/* scroll indicator */
-.scroll-ind{
-  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:5;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-}
-.scroll-ind-wheel{
-  width:26px;height:42px;border:1.5px solid rgba(255,255,255,.2);border-radius:13px;
-  display:flex;justify-content:center;padding-top:7px;
-}
-.scroll-ind-dot{
-  width:5px;height:5px;border-radius:50%;background:var(--gold);
-  animation:scrollDot 1.8s ease-in-out infinite;
-}
-@keyframes scrollDot{0%{transform:translateY(0);opacity:1}80%{transform:translateY(14px);opacity:0}100%{transform:translateY(0);opacity:0}}
-.scroll-ind-txt{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-
-@keyframes heroUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
-
-/* ════════════════════════════════════════════════════
-   TICKER STRIP
-════════════════════════════════════════════════════ */
-.ticker{overflow:hidden;background:var(--gold);padding:12px 0}
-.ticker-track{display:flex;white-space:nowrap;animation:tick 24s linear infinite}
-.ticker:hover .ticker-track{animation-play-state:paused}
-.ti{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
-  padding:0 40px;
-}
-.ti-dot{color:rgba(15,26,20,.4);font-size:.6rem}
-@keyframes tick{to{transform:translateX(-50%)}}
-
-/* ════════════════════════════════════════════════════
-   SERVICES
-════════════════════════════════════════════════════ */
-#services{padding:110px 6%;background:var(--off)}
-.sec-wrap{max-width:1280px;margin:0 auto}
-.sec-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--mist);color:var(--g3);
-  border-radius:30px;padding:6px 16px;
-  font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  margin-bottom:16px;border:1px solid var(--lgray);
-}
-.sec-tag.gld{background:linear-gradient(135deg,#fff9e6,#fef3d0);color:#7a5e10;border-color:#e8d494}
-h2.sec-h2{
-  font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;color:var(--ink);
-  margin-bottom:16px;
-}
-h2.sec-h2 em{
-  font-style:italic;
-  background:linear-gradient(135deg,var(--g3),var(--gold));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-h2.sec-h2.light{color:var(--white)}
-h2.sec-h2.light em{background:linear-gradient(135deg,var(--gold2),#fff9e0);-webkit-background-clip:text;background-clip:text}
-.sec-desc{color:var(--gray);font-size:.97rem;line-height:1.8;max-width:500px;font-weight:300;margin-bottom:0}
-.sec-desc.light{color:rgba(255,255,255,.55)}
-.sh{margin-bottom:56px}
-.sh.c{text-align:center}
-.sh.c .sec-desc{margin:0 auto}
-.sh.c h2.sec-h2{max-width:none}
-
-/* Tabs */
-.svc-tabs{display:flex;gap:8px;margin-bottom:44px;flex-wrap:wrap}
-.stab{
-  padding:10px 22px;border-radius:30px;background:var(--white);
-  border:1.5px solid var(--lgray);font-size:.83rem;font-weight:600;cursor:pointer;
-  transition:all .25s var(--spring);color:var(--ink);font-family:'Inter',sans-serif;
-}
-.stab:hover{border-color:var(--g3);color:var(--g3);transform:translateY(-1px)}
-.stab.on{background:var(--g3);color:var(--white);border-color:var(--g3);box-shadow:0 4px 20px rgba(21,92,50,.3)}
-
-/* Grid */
-.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
-.svc-card{
-  background:var(--white);border-radius:var(--r2);padding:30px 26px;
-  border:1px solid var(--lgray);cursor:pointer;
-  transition:all .35s var(--spring);position:relative;overflow:hidden;
-  box-shadow:0 2px 16px rgba(15,26,20,.06);
-}
-/* shine effect */
-.svc-card::after{
-  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
-  transform:skewX(-20deg);transition:left .6s var(--ease);
-}
-.svc-card:hover::after{left:140%}
-.svc-card::before{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(145deg,var(--g3) 0%,var(--g4) 100%);
-  opacity:0;transition:opacity .35s;
-}
-.svc-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 24px 60px rgba(21,92,50,.2);border-color:transparent}
-.svc-card:hover::before{opacity:1}
-.svc-card:hover .sc-icon,.svc-card:hover .sc-title,.svc-card:hover .sc-desc{color:var(--white)}
-.svc-card:hover .sc-pill{background:rgba(255,255,255,.2);color:var(--white)}
-.svc-card:hover .sc-arr{background:rgba(255,255,255,.2);color:var(--white)}
-.svc-card > *{position:relative;z-index:1}
-.sc-icon{font-size:2.4rem;display:block;margin-bottom:18px;transition:color .3s}
-.sc-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;transition:color .3s}
-.sc-desc{font-size:.84rem;color:var(--gray);line-height:1.7;margin-bottom:18px;font-weight:300;transition:color .3s}
-.sc-foot{display:flex;justify-content:space-between;align-items:center}
-.sc-pill{background:var(--mist);color:var(--g3);border-radius:20px;padding:4px 12px;font-size:.68rem;font-weight:700;letter-spacing:.05em;transition:all .3s}
-.sc-arr{width:32px;height:32px;border-radius:50%;background:var(--mist);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--g3);transition:all .3s}
-
-/* ════════════════════════════════════════════════════
-   WHY US — DARK BENTO
-════════════════════════════════════════════════════ */
-#why{
-  padding:110px 6%;
-  background:linear-gradient(175deg,#050f08 0%,#081408 30%,#0a1c0f 60%,#0c2414 100%);
-  position:relative;overflow:hidden;
-}
-#why::before{
-  content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);
-}
-.why-bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:16px}
-.wb{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--r2);padding:36px 32px;
-  transition:all .35s var(--spring);position:relative;overflow:hidden;
-}
-.wb::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--g4),var(--gold));
-  transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);
-}
-.wb:hover{background:rgba(255,255,255,.07);border-color:rgba(212,168,67,.2);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.wb:hover::after{transform:scaleX(1)}
-/* featured card */
-.wb.feat{grid-column:span 2;background:linear-gradient(135deg,rgba(21,92,50,.25) 0%,rgba(212,168,67,.08) 100%);border-color:rgba(212,168,67,.2)}
-.wb-num{font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;color:rgba(255,255,255,.04);line-height:1;margin-bottom:-12px;display:block}
-.wb-icon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:20px;background:rgba(21,92,50,.4);border:1px solid rgba(21,92,50,.7)}
-.wb h4{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:10px}
-.wb p{font-size:.86rem;color:rgba(255,255,255,.5);line-height:1.75;font-weight:300}
-.wb.feat h4{font-size:1.4rem;margin-bottom:12px}
-.wb.feat p{font-size:.95rem;color:rgba(255,255,255,.65);max-width:500px}
-
-/* ════════════════════════════════════════════════════
-   OWNER — MAGAZINE LAYOUT
-════════════════════════════════════════════════════ */
-#owner{padding:110px 6%;background:var(--off);overflow:hidden}
-.owner-layout{
-  display:grid;grid-template-columns:420px 1fr;gap:80px;align-items:center;
-  max-width:1280px;margin:0 auto;
-}
-/* Photo frame */
-.owner-frame-wrap{position:relative;flex-shrink:0}
-.owner-frame{
-  width:100%;aspect-ratio:.75;border-radius:var(--r2);overflow:hidden;
-  border:1.5px dashed rgba(21,92,50,.4);
-  background:linear-gradient(160deg,#e8f5ec 0%,#d0ead8 50%,#c0ddc8 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:18px;cursor:pointer;transition:all .3s var(--spring);position:relative;
-}
-.owner-frame::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 60%,rgba(21,92,50,.15) 100%);
-}
-.owner-frame:hover{border-color:var(--g3);transform:scale(1.01);box-shadow:0 24px 60px rgba(21,92,50,.2)}
-.of-icon{font-size:5rem;opacity:.35;position:relative;z-index:1}
-.of-label{font-size:.78rem;color:var(--g3);letter-spacing:.1em;text-transform:uppercase;font-weight:700;text-align:center;line-height:1.8;position:relative;z-index:1}
-.of-btn{
-  position:relative;z-index:1;
-  background:var(--g3);color:var(--white);padding:11px 24px;border-radius:24px;
-  font-size:.8rem;font-weight:700;letter-spacing:.06em;cursor:pointer;
-  font-family:'Inter',sans-serif;transition:all .25s var(--spring);box-shadow:0 4px 16px rgba(21,92,50,.3);
-}
-.of-btn:hover{background:var(--g4);transform:translateY(-2px)}
-/* Corner accents */
-.frame-corner{position:absolute;width:48px;height:48px;pointer-events:none;z-index:2}
-.fc-tl{top:-6px;left:-6px;border-top:2px solid var(--gold);border-left:2px solid var(--gold);border-top-left-radius:8px}
-.fc-br{bottom:-6px;right:-6px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);border-bottom-right-radius:8px}
-/* Float card */
-.owner-float{
-  position:absolute;bottom:28px;right:-28px;
-  background:rgba(8,20,12,.92);backdrop-filter:blur(16px);
-  border:1px solid rgba(212,168,67,.2);border-radius:16px;
-  padding:16px 20px;display:flex;align-items:center;gap:14px;
-  box-shadow:0 12px 40px rgba(0,0,0,.5);animation:fbFloat 3.5s ease-in-out infinite;
-}
-.of-stat{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--gold2);line-height:1}
-.of-stxt{font-size:.65rem;color:rgba(255,255,255,.5);line-height:1.5;font-weight:500}
-/* Stars */
-.of-stars{color:var(--gold);font-size:.8rem;letter-spacing:2px;display:block}
-
-/* Owner text */
-.owner-content{}
-.owner-name{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;color:var(--ink);margin-bottom:4px}
-.owner-role{
-  font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--g3);
-  font-weight:700;margin-bottom:30px;display:inline-flex;align-items:center;gap:10px;
-}
-.owner-role::before{content:'';width:28px;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
-.owner-bio{color:var(--gray);font-size:.97rem;line-height:1.9;margin-bottom:32px;font-weight:300}
-.owner-bio strong{color:var(--ink);font-weight:600}
-.owner-quote{
-  border-left:3px solid var(--gold);padding:16px 0 16px 24px;
-  margin-bottom:32px;
-}
-.owner-quote p{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:600;color:var(--ink);font-style:italic;line-height:1.6}
-.owner-quote span{font-size:.78rem;color:var(--gray);display:block;margin-top:8px}
-.owner-vals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
-.oval{
-  display:flex;align-items:center;gap:12px;padding:14px 16px;
-  border-radius:var(--r);border:1px solid var(--lgray);background:var(--white);
-  transition:all .25s var(--spring);box-shadow:0 2px 12px rgba(15,26,20,.05);
-}
-.oval:hover{border-color:var(--g3);transform:translateX(4px);box-shadow:0 6px 24px rgba(21,92,50,.1)}
-.oval-icon{width:38px;height:38px;border-radius:10px;background:var(--mist);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.oval-title{font-size:.83rem;font-weight:700;color:var(--ink);display:block}
-.oval-sub{font-size:.74rem;color:var(--gray);font-weight:300}
-.owner-sig{
-  font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;font-style:italic;
-  color:var(--g3);border-top:1px solid var(--lgray);padding-top:20px;
-}
-
-/* ════════════════════════════════════════════════════
-   VIDEO — CINEMATIC
-════════════════════════════════════════════════════ */
-#video{
-  padding:110px 6%;
-  background:linear-gradient(170deg,#030b06 0%,#071410 40%,#0a1e12 100%);
-  position:relative;overflow:hidden;
-}
-#video::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 60% at 50% 100%,rgba(21,92,50,.2) 0%,transparent 60%);
-}
-.vid-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center;position:relative;z-index:1}
-
-/* Player */
-.vid-player{position:relative}
-.vid-frame{
-  width:100%;aspect-ratio:16/9;border-radius:var(--r2);overflow:hidden;
-  background:linear-gradient(145deg,#020d06 0%,#0a2010 60%,#0e2e18 100%);
-  position:relative;cursor:pointer;box-shadow:0 32px 80px rgba(0,0,0,.6);
-  border:1px solid rgba(255,255,255,.06);
-}
-/* scanlines */
-.vid-frame::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);
-  z-index:2;
-}
-/* green tinted overlay animation */
-.vid-overlay{
-  position:absolute;inset:0;z-index:1;
-  background:
-    radial-gradient(ellipse 60% 60% at 50% 50%,rgba(21,92,50,.3) 0%,transparent 65%),
-    radial-gradient(ellipse 40% 40% at 80% 20%,rgba(212,168,67,.08) 0%,transparent 50%);
-  animation:vidPulse 5s ease-in-out infinite alternate;
-}
-@keyframes vidPulse{0%{opacity:.7}100%{opacity:1}}
-
-.play-center{
-  position:absolute;inset:0;z-index:3;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-}
-.play-ring{
-  width:80px;height:80px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.3);
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.08);backdrop-filter:blur(8px);
-  cursor:pointer;transition:all .3s var(--spring);position:relative;
-}
-.play-ring::before{
-  content:'';position:absolute;inset:-8px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.1);animation:ripple 2.5s ease-out infinite;
-}
-.play-ring::after{
-  content:'';position:absolute;inset:-18px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.05);animation:ripple 2.5s ease-out .6s infinite;
-}
-@keyframes ripple{0%{transform:scale(.8);opacity:0}50%{opacity:1}100%{transform:scale(1.4);opacity:0}}
-.play-ring:hover{background:var(--g3);border-color:var(--g3);transform:scale(1.12);box-shadow:0 0 40px rgba(21,92,50,.6)}
-.play-icon{font-size:1.6rem;margin-left:4px}
-.play-lbl{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600}
-.vid-duration{
-  position:absolute;bottom:16px;right:16px;z-index:4;
-  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
-  color:white;padding:4px 10px;border-radius:6px;
-  font-size:.72rem;font-weight:700;letter-spacing:.06em;
-  border:1px solid rgba(255,255,255,.1);
-}
-/* Thumb strip */
-.vid-thumbs{display:flex;gap:10px;margin-top:14px}
-.vthumb{
-  flex:1;aspect-ratio:16/9;border-radius:10px;
-  background:linear-gradient(135deg,#061008,#0f2516);
-  border:1.5px solid rgba(255,255,255,.07);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;cursor:pointer;transition:all .25s var(--spring);position:relative;overflow:hidden;
-  font-size:1.1rem;
-}
-.vthumb:hover,.vthumb.on{border-color:var(--gold2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.5)}
-.vthumb-lbl{font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:600}
-
-/* Video text side */
-.vid-feat{display:flex;flex-direction:column;gap:14px;margin-top:32px}
-.vf{
-  display:flex;gap:16px;padding:16px 18px;border-radius:var(--r);
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  transition:all .25s var(--spring);
-}
-.vf:hover{background:rgba(255,255,255,.08);border-color:rgba(212,168,67,.2);transform:translateX(6px)}
-.vf-icon{width:42px;height:42px;border-radius:10px;background:rgba(21,92,50,.35);border:1px solid rgba(21,92,50,.6);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.vf-title{font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:3px}
-.vf-desc{font-size:.8rem;color:rgba(255,255,255,.45);font-weight:300;line-height:1.6}
-.vid-socials{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
-.vs-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 20px;border-radius:24px;font-size:.82rem;font-weight:700;
-  transition:all .25s var(--spring);cursor:pointer;
-}
-.vs-ig{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:white}
-.vs-ig:hover{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-color:transparent;transform:translateY(-2px)}
-.vs-tk{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:white}
-.vs-tk:hover{background:#010101;transform:translateY(-2px)}
-.vs-wa{background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.25);color:#4ade80}
-.vs-wa:hover{background:#25D366;color:white;transform:translateY(-2px)}
-
-/* ════════════════════════════════════════════════════
-   GALLERY — IMMERSIVE GRID
-════════════════════════════════════════════════════ */
-#gallery{padding:110px 6%;background:var(--white)}
-.gal-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  grid-template-rows:240px 240px;
-  gap:12px;
-}
-.gal-grid .gi:nth-child(1){grid-column:span 2;grid-row:span 2}
-.gal-grid .gi:nth-child(5){grid-column:span 2}
-.gi{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer}
-.gi-bg{
-  position:absolute;inset:0;transition:transform .5s var(--ease);
-  display:flex;align-items:center;justify-content:center;font-size:2.8rem;
-}
-.gi:hover .gi-bg{transform:scale(1.08)}
-.gi-fog{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,12,8,.85) 0%,rgba(5,12,8,.2) 40%,transparent 70%);opacity:0;transition:opacity .35s}
-.gi:hover .gi-fog{opacity:1}
-.gi-info{position:absolute;bottom:0;left:0;right:0;padding:20px 18px;transform:translateY(10px);opacity:0;transition:all .35s var(--ease)}
-.gi:hover .gi-info{opacity:1;transform:none}
-.gi-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--white);display:block}
-.gi-sub{font-size:.72rem;color:rgba(255,255,255,.6);margin-top:2px}
-/* pill inside gallery */
-.gi-pill{
-  position:absolute;top:14px;left:14px;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.1);border-radius:20px;
-  padding:4px 12px;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.8);
-  letter-spacing:.06em;text-transform:uppercase;opacity:0;transition:opacity .35s;
-}
-.gi:hover .gi-pill{opacity:1}
-.gc1{background:linear-gradient(145deg,#b8dfc0,#82c492)}
-.gc2{background:linear-gradient(145deg,#fde8a8,#f5d070)}
-.gc3{background:linear-gradient(145deg,#b8d4f0,#88b8e0)}
-.gc4{background:linear-gradient(145deg,#f0b8b8,#e08888)}
-.gc5{background:linear-gradient(145deg,#b8f0c8,#78d8a0)}
-
-/* ════════════════════════════════════════════════════
-   TESTIMONIALS
-════════════════════════════════════════════════════ */
-#testimonials{
-  padding:110px 6%;
-  background:linear-gradient(170deg,#040c07 0%,#071410 50%,#0a1c12 100%);
-  position:relative;overflow:hidden;
-}
-.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.tc{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--r2);padding:32px 28px;transition:all .3s var(--spring);position:relative;
-}
-.tc::before{
-  content:'\201C';font-family:'Syne',sans-serif;font-size:6rem;font-weight:800;
-  color:rgba(21,92,50,.2);position:absolute;top:14px;right:22px;line-height:1;
-}
-.tc:hover{background:rgba(255,255,255,.08);border-color:rgba(212,168,67,.25);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.5)}
-.tc-stars{color:var(--gold);font-size:.85rem;letter-spacing:3px;margin-bottom:16px}
-.tc-text{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:24px;font-style:italic;font-weight:300}
-.tc-author{display:flex;align-items:center;gap:12px}
-.tc-av{
-  width:44px;height:44px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;
-  color:var(--white);flex-shrink:0;
-}
-.tc-name{font-size:.9rem;font-weight:700;color:var(--white);display:block}
-.tc-role{font-size:.72rem;color:rgba(255,255,255,.4)}
-
-/* ════════════════════════════════════════════════════
-   COUNTER STRIP
-════════════════════════════════════════════════════ */
-.counter-strip{
-  background:linear-gradient(135deg,var(--g3) 0%,var(--g4) 100%);
-  padding:56px 6%;
-}
-.counter-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:0;align-items:center}
-.cnt{text-align:center;padding:0 20px;position:relative}
-.cnt+.cnt::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.15)}
-.cnt-n{
-  font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;color:var(--white);
-  line-height:1;display:block;
-  background:linear-gradient(135deg,var(--white),var(--gold2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.cnt-l{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);display:block;margin-top:8px}
-
-/* ════════════════════════════════════════════════════
-   BOOKING
-════════════════════════════════════════════════════ */
-#booking{padding:110px 6%;background:var(--off)}
-.book-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:72px;align-items:start;max-width:1280px;margin:0 auto}
-.book-left{}
-.book-left .sec-desc{margin-bottom:36px}
-.cstack{display:flex;flex-direction:column;gap:10px}
-.citem{
-  display:flex;align-items:center;gap:16px;padding:16px 20px;
-  border-radius:var(--r);background:var(--white);border:1px solid var(--lgray);
-  transition:all .25s var(--spring);box-shadow:0 2px 12px rgba(15,26,20,.05);
-}
-.citem:hover{border-color:var(--g3);transform:translateX(6px);box-shadow:0 8px 28px rgba(21,92,50,.12)}
-.ci-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
-.ci-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--gray);display:block}
-.ci-val{font-size:.95rem;font-weight:700;color:var(--ink)}
-
-/* Form */
-.book-form{background:var(--white);border-radius:var(--r2);padding:44px 40px;border:1px solid var(--lgray);box-shadow:0 20px 60px rgba(15,26,20,.1)}
-.book-form h3{font-size:1.7rem;font-weight:800;margin-bottom:28px;color:var(--ink)}
-.fg{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.fg label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
-.fg input,.fg select,.fg textarea{
-  padding:13px 16px;border-radius:var(--r);border:1.5px solid var(--lgray);
-  background:var(--off);font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink);
-  transition:all .2s;outline:none;width:100%;
-}
-.fg input:focus,.fg select:focus,.fg textarea:focus{
-  border-color:var(--g3);background:var(--white);
-  box-shadow:0 0 0 4px rgba(21,92,50,.08);
-}
-.fg textarea{resize:vertical;min-height:90px}
-.btn-submit{
-  width:100%;padding:17px;border-radius:50px;border:none;
-  background:linear-gradient(135deg,var(--g3) 0%,var(--g4) 100%);
-  color:var(--white);font-size:.95rem;font-weight:700;cursor:pointer;
-  font-family:'Syne',sans-serif;letter-spacing:.03em;
-  transition:all .3s var(--spring);box-shadow:0 8px 28px rgba(21,92,50,.35);
-  display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;
-}
-.btn-submit::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.btn-submit:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(21,92,50,.45)}
-.btn-submit:hover::before{opacity:1}
-.form-ok{display:none;text-align:center;padding:44px 20px}
-.form-ok-icon{font-size:3.5rem;margin-bottom:16px}
-.form-ok h4{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--g3);margin-bottom:10px}
-.form-ok p{font-size:.9rem;color:var(--gray);font-weight:300}
-
-/* ════════════════════════════════════════════════════
-   LOCATION
-════════════════════════════════════════════════════ */
-#location{padding:110px 6%;background:var(--mist)}
-.loc-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:60px;align-items:center;max-width:1280px;margin:0 auto}
-.loc-rows{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
-.loc-row{display:flex;align-items:center;gap:14px;font-size:.9rem;color:var(--ink)}
-.loc-row-ic{width:38px;height:38px;border-radius:10px;background:var(--white);border:1px solid var(--lgray);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;box-shadow:0 2px 8px rgba(15,26,20,.06)}
-.map-frame{
-  width:100%;height:420px;border-radius:var(--r2);overflow:hidden;
-  background:linear-gradient(145deg,#c0d8c0,#a0c4a8);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-  border:2px dashed rgba(21,92,50,.25);box-shadow:0 20px 60px rgba(15,26,20,.12);
-}
-.map-ic{font-size:3.5rem;opacity:.5}
-.map-lbl{font-size:.85rem;color:var(--g3);text-align:center;line-height:1.8;font-weight:500}
-.map-btn{
-  background:var(--g3);color:var(--white);padding:12px 24px;border-radius:28px;
-  font-size:.85rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
-  transition:all .25s var(--spring);box-shadow:0 4px 16px rgba(21,92,50,.3);
-}
-.map-btn:hover{background:var(--g4);transform:translateY(-2px)}
-
-/* ════════════════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════════════════ */
-footer{background:#030a05;padding:80px 6% 36px}
-.foot-inner{max-width:1280px;margin:0 auto}
-.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:60px;margin-bottom:60px}
-.foot-brand-name{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.03em;color:var(--white)}
-.foot-brand-name span{color:var(--gold2)}
-.foot-sub{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:18px;margin-top:2px;display:block}
-.foot-desc{font-size:.84rem;color:rgba(255,255,255,.4);line-height:1.8;font-weight:300;margin-bottom:24px}
-.foot-socials{display:flex;gap:8px}
-.fs{
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.9rem;text-decoration:none;color:rgba(255,255,255,.5);
-  transition:all .25s var(--spring);
-}
-.fs:hover{background:var(--g3);border-color:var(--g3);color:var(--white);transform:translateY(-3px)}
-.foot-col h5{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:18px}
-.foot-col ul{list-style:none}
-.foot-col li{margin-bottom:9px}
-.foot-col a{font-size:.83rem;color:rgba(255,255,255,.45);transition:color .2s;font-weight:300}
-.foot-col a:hover{color:var(--gold2)}
-.foot-contact li{display:flex;gap:10px;margin-bottom:12px;font-size:.83rem;color:rgba(255,255,255,.45);align-items:flex-start;font-weight:300}
-.fci{color:var(--gold2);flex-shrink:0;margin-top:1px}
-.foot-bottom{
-  border-top:1px solid rgba(255,255,255,.06);padding-top:28px;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:.75rem;color:rgba(255,255,255,.25);
-}
-.foot-chips{display:flex;gap:10px;flex-wrap:wrap}
-.fchip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:4px 12px;font-size:.68rem;color:rgba(255,255,255,.35)}
-
-/* ════════════════════════════════════════════════════
-   FLOATING BUTTONS
-════════════════════════════════════════════════════ */
-.wa-btn{
-  position:fixed;bottom:30px;right:30px;z-index:8000;
-  width:62px;height:62px;border-radius:50%;background:#25D366;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.7rem;color:var(--white);text-decoration:none;
-  box-shadow:0 6px 28px rgba(37,211,102,.5);transition:all .25s var(--spring);
-  animation:wap 2.5s infinite;
-}
-.wa-btn:hover{transform:scale(1.14);box-shadow:0 12px 40px rgba(37,211,102,.7)}
-.wa-tip{
-  position:absolute;right:72px;top:50%;transform:translateY(-50%);
-  background:rgba(0,0,0,.85);color:var(--white);white-space:nowrap;
-  padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:700;
-  font-family:'Inter',sans-serif;opacity:0;transition:opacity .25s;pointer-events:none;
-}
-.wa-btn:hover .wa-tip{opacity:1}
-@keyframes wap{
-  0%,100%{box-shadow:0 6px 28px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,.3)}
-  50%{box-shadow:0 6px 28px rgba(37,211,102,.5),0 0 0 14px rgba(37,211,102,0)}
-}
-.call-btn{
-  position:fixed;bottom:30px;left:30px;z-index:8000;
-  background:linear-gradient(135deg,var(--g3),var(--g4));
-  color:var(--white);border-radius:36px;padding:14px 22px;
-  font-size:.85rem;font-weight:700;text-decoration:none;
-  display:flex;align-items:center;gap:9px;font-family:'Syne',sans-serif;
-  box-shadow:0 6px 28px rgba(21,92,50,.45);transition:all .25s var(--spring);
-}
-.call-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(21,92,50,.6)}
-
-/* ════════════════════════════════════════════════════
-   SCROLL REVEAL
-════════════════════════════════════════════════════ */
-.sr{opacity:0;transform:translateY(40px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
-.sr.show{opacity:1;transform:none}
-.srl{opacity:0;transform:translateX(-40px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
-.srl.show{opacity:1;transform:none}
-.srr{opacity:0;transform:translateX(40px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
-.srr.show{opacity:1;transform:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
-
-/* ════════════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════════════ */
-@media(max-width:1024px){
-  .hero-inner{grid-template-columns:1fr;padding-top:120px}
-  .hero-right{display:none}
-  .owner-layout{grid-template-columns:1fr;gap:48px}
-  .why-bento{grid-template-columns:1fr 1fr}
-  .wb.feat{grid-column:span 2}
-  .vid-layout{grid-template-columns:1fr}
-  .t-grid{grid-template-columns:1fr 1fr}
-  .foot-top{grid-template-columns:1fr 1fr;gap:40px}
-  .counter-inner{grid-template-columns:repeat(2,1fr);gap:32px}
-  .cnt+.cnt::before{display:none}
-}
-@media(max-width:768px){
-  .nav-links{display:none}
-  .hamburger{display:flex}
-  body{cursor:auto}
-  #cursor,#cursor-ring{display:none}
-  #services,#why,#owner,#video,#gallery,#testimonials,#booking,#location,footer{padding:72px 5%}
-  .why-bento{grid-template-columns:1fr}
-  .wb.feat{grid-column:span 1}
-  .t-grid{grid-template-columns:1fr}
-  .book-grid{grid-template-columns:1fr;gap:48px}
-  .loc-grid{grid-template-columns:1fr}
-  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-  .gal-grid .gi:nth-child(1){grid-column:span 2;grid-row:span 1;height:200px}
-  .gal-grid .gi:nth-child(5){grid-column:span 2}
-  .gi{height:160px}
-  .frow{grid-template-columns:1fr}
-  .hero-stats{flex-wrap:wrap;gap:0;width:100%}
-  .hstat{flex:1;min-width:120px}
-  .owner-frame-wrap{max-width:340px;margin:0 auto}
-  .owner-vals{grid-template-columns:1fr}
-  .book-form{padding:28px 22px}
-  .foot-top{grid-template-columns:1fr;gap:36px}
-  .foot-bottom{flex-direction:column;gap:16px;text-align:center}
-  .foot-chips{justify-content:center}
-  .call-btn{display:none}
-  .counter-inner{grid-template-columns:repeat(2,1fr)}
-}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abu-Shine | Premium Cleaning &amp; Fumigation Services</title>
+  <meta name="description" content="Abu-Shine — Kenya's most trusted professional cleaning and fumigation company. Guaranteed results for homes, offices, schools, and hotels."/>
+  <meta name="keywords" content="cleaning services Kenya, fumigation, pest control, bed bug treatment, sofa cleaning, carpet cleaning"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 
-<!-- CURSOR -->
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
-
-<!-- PARTICLES -->
 <canvas id="particles"></canvas>
 
-<!-- LOADER -->
+<!-- ══ LOADER ══ -->
 <div id="loader">
-  <div class="ld-logo">Abu&#8209;<span>Shine</span></div>
-  <div class="ld-sub">Premium Cleaning &amp; Fumigation</div>
-  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-logo-wrap">
+    <div class="ld-logo-ring"></div>
+    <div class="ld-emblem">✨</div>
+  </div>
+  <div class="ld-brand">Abu&#8209;Shine</div>
+  <div class="ld-tagline">Premium Cleaning &amp; Fumigation</div>
+  <div class="ld-progress"><div class="ld-bar"></div></div>
+  <div class="ld-pct" id="ld-pct">0%</div>
 </div>
 
-<!-- ══════════ NAV ══════════ -->
-<nav id="nav">
+<!-- ══ COOKIE BANNER ══ -->
+<div id="cookie-banner">
+  <div class="ck-icon">🍪</div>
+  <div class="ck-text">
+    <p>We use cookies to improve your experience, analyse traffic, and personalise content. By clicking <strong>Accept All</strong>, you agree to our cookie policy. <a href="#">Learn more</a>.</p>
+  </div>
+  <div class="ck-btns">
+    <button class="ck-accept" id="ck-accept">Accept All</button>
+    <button class="ck-decline" id="ck-decline">Decline</button>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="main-nav">
   <div class="nav-left">
     <div class="logo-box" title="Upload your logo">
-      <span class="logo-box-icon">🖼</span>
-      <span class="logo-box-txt">LOGO</span>
-      <span class="logo-box-tip">Upload Logo</span>
+      <span class="logo-box-ic">🖼</span>
+      <span class="logo-box-tx">LOGO</span>
+      <span class="logo-tip">Upload Logo</span>
     </div>
-    <div class="brand-text">
-      <span class="brand-name">Abu&#8209;<span>Shine</span></span>
-      <span class="brand-sub">Cleaning &amp; Fumigation</span>
+    <div class="nav-brand">
+      <span class="nav-name">Abu&#8209;<em>Shine</em></span>
+      <span class="nav-sub">Cleaning &amp; Fumigation</span>
     </div>
   </div>
   <ul class="nav-links">
@@ -969,9 +63,11 @@ footer{background:#030a05;padding:80px 6% 36px}
     <li><a href="#location">Location</a></li>
     <li><a href="#booking" class="nav-cta">📋 Get a Quote</a></li>
   </ul>
-  <div class="hamburger" id="hbg" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  <div class="hamburger" id="hbg" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
-<div class="mob-menu" id="mobMenu">
+<div class="mob-menu" id="mob-menu">
   <a href="#services" onclick="closeNav()">Services</a>
   <a href="#owner" onclick="closeNav()">About the Owner</a>
   <a href="#video" onclick="closeNav()">Watch Our Work</a>
@@ -981,66 +77,58 @@ footer{background:#030a05;padding:80px 6% 36px}
   <a href="#booking" onclick="closeNav()">📋 Get a Free Quote →</a>
 </div>
 
-<!-- ══════════ HERO ══════════ -->
+<!-- ══ HERO ══ -->
 <section id="hero">
   <div class="hero-mesh"></div>
   <div class="hero-grid"></div>
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
   <div class="orb orb3"></div>
-  <div class="hero-inner">
-    <!-- Left -->
+  <div class="hero-wrap">
     <div class="hero-left">
       <div class="hero-pill">
-        <span class="hero-pill-dot"></span>
+        <span class="pill-dot"></span>
         <span>Kenya's Most Trusted Cleaning &amp; Fumigation</span>
       </div>
-      <h1 class="hero-h1">
-        We Make Your<br/>
-        <span class="line2">Space Shine</span>
-      </h1>
-      <p class="hero-sub">Professional cleaning and pest control for homes, offices, hotels, and schools. Results guaranteed — or we come back for free.</p>
+      <h1 class="hero-h1">We Make Your<br/><span class="h1-glow">Space Shine</span></h1>
+      <p class="hero-desc">Professional cleaning and pest control for homes, offices, hotels, and schools. Results guaranteed — or we come back for free.</p>
       <div class="hero-btns">
-        <a href="#booking" class="btn-mag btn-primary-mag">📋 Get Free Quote</a>
-        <a href="tel:0705004596" class="btn-mag btn-secondary-mag">📞 0705 004 596</a>
+        <a href="#booking" class="btn-gld">📋 Get Free Quote</a>
+        <a href="tel:0705004596" class="btn-ghost">📞 0705 004 596</a>
       </div>
       <div class="hero-stats">
-        <div class="hstat"><span class="hstat-n" data-target="500">0</span><span class="hstat-l">Happy Clients</span></div>
-        <div class="hstat"><span class="hstat-n" data-target="15">0</span><span class="hstat-l">Services</span></div>
-        <div class="hstat"><span class="hstat-n" data-target="100">0</span><span class="hstat-l">% Satisfaction</span></div>
-        <div class="hstat"><span class="hstat-n">5★</span><span class="hstat-l">Star Rating</span></div>
+        <div class="hs"><span class="hs-n" data-target="500" data-suffix="+">0</span><span class="hs-l">Happy Clients</span></div>
+        <div class="hs"><span class="hs-n" data-target="14">0</span><span class="hs-l">Services</span></div>
+        <div class="hs"><span class="hs-n" data-target="100" data-suffix="%">0</span><span class="hs-l">Satisfaction</span></div>
+        <div class="hs"><span class="hs-n">5★</span><span class="hs-l">Star Rating</span></div>
       </div>
     </div>
-    <!-- Right -->
     <div class="hero-right">
       <div style="position:relative">
-        <div class="logo-hero-frame">
-          <div class="logo-ring"></div>
-          <div class="logo-hero-icon">🏷️</div>
-          <div class="logo-hero-label">Your Brand Logo<br/>Goes Here</div>
-          <button class="logo-upload-cta">📤 Upload Logo</button>
+        <div class="logo-frame">
+          <div class="logo-spin"></div>
+          <div class="lf-icon">🏷️</div>
+          <div class="lf-label">Your Brand Logo<br/>Goes Here</div>
+          <button class="lf-btn">📤 Upload Logo</button>
         </div>
-        <div class="float-badge fb1">
-          <div class="fb-icon">✅</div>
-          <div><div class="fb-n">100%</div><div class="fb-t">Results<br/>Guaranteed</div></div>
+        <div class="fbadge fb-a">
+          <div><div class="fbn">✅ 100%</div><div class="fbt">Guaranteed<br/>Results</div></div>
         </div>
-        <div class="float-badge fb2">
-          <div class="fb-icon">⚡</div>
-          <div><div class="fb-n">1hr</div><div class="fb-t">Response<br/>Time</div></div>
+        <div class="fbadge fb-b">
+          <div><div class="fbn">⚡ 1hr</div><div class="fbt">Response<br/>Time</div></div>
         </div>
       </div>
-      <div class="logo-hero-caption">Replace with your Abu-Shine logo</div>
+      <div class="logo-caption">Replace with your Abu-Shine logo</div>
     </div>
   </div>
-  <!-- Scroll indicator -->
-  <div class="scroll-ind">
-    <div class="scroll-ind-wheel"><div class="scroll-ind-dot"></div></div>
-    <span class="scroll-ind-txt">Scroll</span>
+  <div class="scroll-hint">
+    <div class="scroll-wheel"><div class="scroll-dot"></div></div>
+    <span class="scroll-lbl">Scroll</span>
   </div>
 </section>
 
-<!-- ══════════ TICKER ══════════ -->
-<div class="ticker">
+<!-- ══ TICKER ══ -->
+<div class="ticker-strip">
   <div class="ticker-track">
     <span class="ti"><span class="ti-dot">✦</span>Licensed &amp; Insured</span>
     <span class="ti"><span class="ti-dot">✦</span>Eco-Friendly Products</span>
@@ -1049,7 +137,7 @@ footer{background:#030a05;padding:80px 6% 36px}
     <span class="ti"><span class="ti-dot">✦</span>Results Guaranteed</span>
     <span class="ti"><span class="ti-dot">✦</span>Same-Day Response</span>
     <span class="ti"><span class="ti-dot">✦</span>Homes · Offices · Hotels · Schools</span>
-    <span class="ti"><span class="ti-dot">✦</span>Transparent Pricing</span>
+    <span class="ti"><span class="ti-dot">✦</span>Zero Hidden Charges</span>
     <span class="ti"><span class="ti-dot">✦</span>Licensed &amp; Insured</span>
     <span class="ti"><span class="ti-dot">✦</span>Eco-Friendly Products</span>
     <span class="ti"><span class="ti-dot">✦</span>Background Checked Staff</span>
@@ -1057,318 +145,245 @@ footer{background:#030a05;padding:80px 6% 36px}
     <span class="ti"><span class="ti-dot">✦</span>Results Guaranteed</span>
     <span class="ti"><span class="ti-dot">✦</span>Same-Day Response</span>
     <span class="ti"><span class="ti-dot">✦</span>Homes · Offices · Hotels · Schools</span>
-    <span class="ti"><span class="ti-dot">✦</span>Transparent Pricing</span>
+    <span class="ti"><span class="ti-dot">✦</span>Zero Hidden Charges</span>
   </div>
 </div>
 
-<!-- ══════════ SERVICES ══════════ -->
-<section id="services">
-  <div class="sec-wrap">
+<!-- ══ SERVICES ══ -->
+<section id="services" class="section">
+  <div class="wrap">
     <div class="sh sr">
       <div class="sec-tag">✦ What We Do</div>
-      <h2 class="sec-h2">Our <em>Services</em></h2>
-      <p class="sec-desc">From spotless sofas to pest-free properties — expert care, premium products, guaranteed results every time.</p>
+      <h2 class="sec-h">Our <em>Services</em></h2>
+      <p class="sec-d">From spotless sofas to pest-free properties — expert care, premium products, guaranteed results.</p>
     </div>
     <div class="svc-tabs sr">
-      <button class="stab on" onclick="fSvc('all',this)">All Services</button>
-      <button class="stab" onclick="fSvc('cleaning',this)">🧹 Cleaning</button>
-      <button class="stab" onclick="fSvc('fumigation',this)">🛡️ Fumigation &amp; Pest Control</button>
+      <button class="stab on" onclick="filterSvc('all',this)">All Services</button>
+      <button class="stab" onclick="filterSvc('cleaning',this)">🧹 Cleaning</button>
+      <button class="stab" onclick="filterSvc('fumigation',this)">🛡️ Fumigation &amp; Pest Control</button>
     </div>
-    <div class="svc-grid" id="svcGrid">
-      <div class="svc-card sr" data-cat="cleaning" onclick="openQuote('Sofa Cleaning')"><span class="sc-icon">🛋️</span><div class="sc-title">Sofa Cleaning</div><p class="sc-desc">Deep cleaning of all sofa types — removing stains, odors, and allergens for a fresh, like-new finish.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d1" data-cat="cleaning" onclick="openQuote('Mattress Cleaning')"><span class="sc-icon">🛏️</span><div class="sc-title">Mattress Cleaning</div><p class="sc-desc">Sanitize and deodorize your mattress, eliminating dust mites and allergens for healthier sleep.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d2" data-cat="cleaning" onclick="openQuote('Carpet Cleaning')"><span class="sc-icon">🟫</span><div class="sc-title">Carpet Cleaning</div><p class="sc-desc">Steam and deep clean carpets of all sizes — removing embedded dirt, stains, and persistent odors.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d3" data-cat="cleaning" onclick="openQuote('General House Cleaning')"><span class="sc-icon">🏡</span><div class="sc-title">House Cleaning</div><p class="sc-desc">Top-to-bottom comprehensive cleaning — leaving every room spotless, fresh, and revived.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr" data-cat="cleaning" onclick="openQuote('Office Cleaning')"><span class="sc-icon">🏢</span><div class="sc-title">Office Cleaning</div><p class="sc-desc">Professional commercial cleaning maintaining a hygienic, productive workspace for your entire team.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d1" data-cat="cleaning" onclick="openQuote('Post-Construction Cleaning')"><span class="sc-icon">🔨</span><div class="sc-title">Post-Construction</div><p class="sc-desc">Thorough cleanup after renovation — removing debris, dust, and residue so you can move in immediately.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d2" data-cat="cleaning" onclick="openQuote('Kitchen & Washroom Deep Clean')"><span class="sc-icon">🍳</span><div class="sc-title">Kitchen &amp; Washroom Deep Clean</div><p class="sc-desc">Intensive grease, mold, and bacteria removal from surfaces, appliances, and all fixtures.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d3" data-cat="fumigation" onclick="openQuote('Bed Bug Treatment')"><span class="sc-icon">🐜</span><div class="sc-title">Bed Bug Treatment</div><p class="sc-desc">Proven bed bug elimination with guaranteed lasting results — your bedroom will be pest-free.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr" data-cat="fumigation" onclick="openQuote('Cockroach Control')"><span class="sc-icon">🪳</span><div class="sc-title">Cockroach Control</div><p class="sc-desc">Targeted extermination using safe gels and sprays — fast-acting, thorough, and family safe.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d1" data-cat="fumigation" onclick="openQuote('Rat & Mice Control')"><span class="sc-icon">🐀</span><div class="sc-title">Rat &amp; Mice Control</div><p class="sc-desc">Trapping, baiting, and structural proofing to eliminate rodents and prevent re-entry permanently.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d2" data-cat="fumigation" onclick="openQuote('Mosquito Fumigation')"><span class="sc-icon">🦟</span><div class="sc-title">Mosquito Fumigation</div><p class="sc-desc">Indoor and outdoor treatment creating a safe, bite-free environment for your home or business.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d3" data-cat="fumigation" onclick="openQuote('Termite Treatment')"><span class="sc-icon">🪵</span><div class="sc-title">Termite Treatment</div><p class="sc-desc">Protect your property from costly structural damage with expert treatment and prevention plans.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr" data-cat="fumigation" onclick="openQuote('Ant Control')"><span class="sc-icon">🐝</span><div class="sc-title">Ant Control</div><p class="sc-desc">Source-level colony elimination with lasting protection for your home, office, or commercial space.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
-      <div class="svc-card sr d1" data-cat="fumigation" onclick="openQuote('General Pest Control')"><span class="sc-icon">🛡️</span><div class="sc-title">General Pest Control</div><p class="sc-desc">A comprehensive pest management plan covering all common household and commercial pest threats.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+    <div class="svc-grid">
+      <div class="svc-card sr" data-cat="cleaning" onclick="openQuote('Sofa Cleaning')"><span class="sc-ico">🛋️</span><div class="sc-t">Sofa Cleaning</div><p class="sc-d">Deep clean of all sofa types — removing stains, odors, and allergens for a fresh, like-new finish.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d1" data-cat="cleaning" onclick="openQuote('Mattress Cleaning')"><span class="sc-ico">🛏️</span><div class="sc-t">Mattress Cleaning</div><p class="sc-d">Sanitize and deodorize your mattress — eliminating dust mites and allergens for healthier sleep.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d2" data-cat="cleaning" onclick="openQuote('Carpet Cleaning')"><span class="sc-ico">🟫</span><div class="sc-t">Carpet Cleaning</div><p class="sc-d">Steam and deep clean carpets of all sizes — removing embedded dirt, stains, and persistent odors.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d3" data-cat="cleaning" onclick="openQuote('General House Cleaning')"><span class="sc-ico">🏡</span><div class="sc-t">House Cleaning</div><p class="sc-d">Top-to-bottom comprehensive cleaning — every room spotless, fresh, and completely revived.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr" data-cat="cleaning" onclick="openQuote('Office Cleaning')"><span class="sc-ico">🏢</span><div class="sc-t">Office Cleaning</div><p class="sc-d">Professional commercial cleaning for a hygienic, productive workspace your team will love.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d1" data-cat="cleaning" onclick="openQuote('Post-Construction Cleaning')"><span class="sc-ico">🔨</span><div class="sc-t">Post-Construction</div><p class="sc-d">Thorough post-renovation cleanup — removing debris, dust, and residue for immediate move-in.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d2" data-cat="cleaning" onclick="openQuote('Kitchen & Washroom Deep Clean')"><span class="sc-ico">🍳</span><div class="sc-t">Kitchen &amp; Washroom Deep Clean</div><p class="sc-d">Intensive grease, mold, and bacteria removal from surfaces, appliances, and all fixtures.</p><div class="sc-foot"><span class="sc-pill">Cleaning</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d3" data-cat="fumigation" onclick="openQuote('Bed Bug Treatment')"><span class="sc-ico">🐜</span><div class="sc-t">Bed Bug Treatment</div><p class="sc-d">Proven bed bug elimination with guaranteed lasting results — your bedroom will be pest-free.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr" data-cat="fumigation" onclick="openQuote('Cockroach Control')"><span class="sc-ico">🪳</span><div class="sc-t">Cockroach Control</div><p class="sc-d">Targeted extermination using safe gels and sprays — fast-acting, thorough, and family safe.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d1" data-cat="fumigation" onclick="openQuote('Rat & Mice Control')"><span class="sc-ico">🐀</span><div class="sc-t">Rat &amp; Mice Control</div><p class="sc-d">Trapping, baiting, and structural proofing to eliminate rodents and prevent re-entry permanently.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d2" data-cat="fumigation" onclick="openQuote('Mosquito Fumigation')"><span class="sc-ico">🦟</span><div class="sc-t">Mosquito Fumigation</div><p class="sc-d">Indoor and outdoor treatment creating a safe, bite-free environment for your whole family.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d3" data-cat="fumigation" onclick="openQuote('Termite Treatment')"><span class="sc-ico">🪵</span><div class="sc-t">Termite Treatment</div><p class="sc-d">Protect your property from costly structural damage with expert treatment and prevention plans.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr" data-cat="fumigation" onclick="openQuote('Ant Control')"><span class="sc-ico">🐝</span><div class="sc-t">Ant Control</div><p class="sc-d">Source-level colony elimination with lasting protection for home, office, or commercial space.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
+      <div class="svc-card sr d1" data-cat="fumigation" onclick="openQuote('General Pest Control')"><span class="sc-ico">🛡️</span><div class="sc-t">General Pest Control</div><p class="sc-d">A comprehensive pest management plan covering all common household and commercial pest threats.</p><div class="sc-foot"><span class="sc-pill">Fumigation</span><span class="sc-arr">→</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ WHY US ══════════ -->
-<section id="why">
-  <div class="sec-wrap">
+<!-- ══ WHY US ══ -->
+<section id="why" class="section">
+  <div class="wrap">
     <div class="sh sr">
-      <div class="sec-tag" style="background:rgba(212,168,67,.12);color:var(--gold2);border-color:rgba(212,168,67,.2)">✦ Why Choose Us</div>
-      <h2 class="sec-h2 light">The <em>Abu-Shine</em><br/>Difference</h2>
-      <p class="sec-desc light">We don't just show up — we transform. Six reasons why hundreds of clients trust us, again and again.</p>
+      <div class="sec-tag lt">✦ Why Choose Us</div>
+      <h2 class="sec-h lt">The <em>Abu-Shine</em> Difference</h2>
+      <p class="sec-d lt">Six reasons why hundreds of clients trust us — again and again.</p>
     </div>
-    <div class="why-bento">
-      <div class="wb feat sr"><span class="wb-num">01</span><div class="wb-icon">🎓</div><h4>Trained, Uniformed Professionals</h4><p>Every single team member is background-checked, uniformed, and professionally trained. When we enter your home or office, you can trust us completely — with your space and with your valuables.</p></div>
-      <div class="wb sr d1"><span class="wb-num">02</span><div class="wb-icon">🌿</div><h4>Eco-Friendly Products</h4><p>Safe for your family, pets, and the environment. Our certified products are powerful against pests and dirt, but gentle where it matters.</p></div>
-      <div class="wb sr"><span class="wb-num">03</span><div class="wb-icon">⏱️</div><h4>Always On Time</h4><p>No rescheduling, no excuses. We arrive when we say we will. Your time is valuable — we respect that every single visit.</p></div>
-      <div class="wb sr d1"><span class="wb-num">04</span><div class="wb-icon">💰</div><h4>Zero Hidden Charges</h4><p>Clear quotes before we start. What we quote is exactly what you pay. No surprises, no add-ons you didn't agree to.</p></div>
-      <div class="wb sr d2"><span class="wb-num">05</span><div class="wb-icon">🏆</div><h4>Results Guaranteed</h4><p>Not satisfied? We return at no cost and make it right. Your complete satisfaction isn't optional for us — it's the standard.</p></div>
-      <div class="wb sr d3"><span class="wb-num">06</span><div class="wb-icon">📱</div><h4>Book in 2 Minutes</h4><p>WhatsApp, phone, or our online form. We confirm within the hour and show up ready to deliver exceptional results.</p></div>
+    <div class="why-grid">
+      <div class="wc feat sr"><span class="wc-num">01</span><div class="wc-ic">🎓</div><h4>Trained, Uniformed Professionals</h4><p>Every team member is background-checked, uniformed, and professionally trained. When we enter your home or office, you can trust us completely — with your space, your property, and your family.</p></div>
+      <div class="wc sr d1"><span class="wc-num">02</span><div class="wc-ic">🌿</div><h4>Eco-Friendly Products</h4><p>Safe for your family, pets, and the environment. Certified products powerful against pests and dirt, gentle where it matters most.</p></div>
+      <div class="wc sr"><span class="wc-num">03</span><div class="wc-ic">⏱️</div><h4>Always On Time</h4><p>No rescheduling, no excuses. We show up exactly when we say. Your time is valuable and we respect that on every single visit.</p></div>
+      <div class="wc sr d1"><span class="wc-num">04</span><div class="wc-ic">💰</div><h4>Zero Hidden Charges</h4><p>Clear quotes before we start. What we quote is what you pay. No surprises, no add-ons you didn't agree to.</p></div>
+      <div class="wc sr d2"><span class="wc-num">05</span><div class="wc-ic">🏆</div><h4>Results Guaranteed</h4><p>Not satisfied? We return at zero extra cost and make it right. Your complete satisfaction isn't optional — it's our absolute standard.</p></div>
+      <div class="wc sr d3"><span class="wc-num">06</span><div class="wc-ic">📱</div><h4>Book in 2 Minutes</h4><p>WhatsApp, phone, or our online form — we confirm within the hour and arrive ready to deliver exceptional results.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ OWNER ══════════ -->
-<section id="owner">
-  <div class="sec-wrap">
-
-    <!-- Section header — always visible, no animation delay -->
-    <div class="sh" style="margin-bottom:60px">
-      <div class="sec-tag">✦ Meet the Founder</div>
-      <h2 class="sec-h2">The Person <em>Behind the Shine</em></h2>
-      <p class="sec-desc">A story of passion, persistence, and a relentless commitment to clean.</p>
-    </div>
-
-    <div class="owner-layout">
-
-      <!-- ── PHOTO PLACEHOLDER ── -->
-      <div class="owner-frame-wrap" style="opacity:1;transform:none">
-        <div class="owner-frame" title="Click to upload owner photo">
-          <div class="of-icon">👤</div>
-          <div class="of-label">
-            Owner / Founder<br/>
-            <strong style="color:var(--g3);font-size:.85rem">Profile Photo Goes Here</strong><br/>
-            <span style="font-size:.72rem;color:var(--gray)">Best size: 600 × 800px (portrait)</span>
-          </div>
-          <button class="of-btn" onclick="alert('Replace this placeholder with your actual photo by editing the HTML img tag.')">📤 Upload Your Photo</button>
+<!-- ══ OWNER ══ -->
+<section id="owner" class="section">
+  <div class="wrap">
+    <div class="owner-grid">
+      <!-- Photo placeholder -->
+      <div class="owner-photo-wrap sl">
+        <div class="owner-photo">
+          <div class="op-icon">👤</div>
+          <div class="op-lbl">Owner / Founder<br/>Profile Photo Here<br/><small style="font-size:.62rem;opacity:.65">(Replace with real photo)</small></div>
+          <button class="op-btn">📤 Upload Photo</button>
         </div>
-        <!-- Decorative corner accents -->
-        <div class="frame-corner fc-tl"></div>
-        <div class="frame-corner fc-br"></div>
-        <!-- Floating badge -->
+        <div class="corner c-tl"></div>
+        <div class="corner c-br"></div>
         <div class="owner-float">
-          <div style="text-align:center">
+          <div>
             <span class="of-stars">★★★★★</span>
-            <div class="of-stat">500+</div>
-            <div class="of-stxt">Happy<br/>Clients</div>
+            <div class="of-big">500+</div>
+            <div class="of-txt">Happy<br/>Clients</div>
           </div>
         </div>
       </div>
-
-      <!-- ── OWNER DESCRIPTION ── -->
-      <div class="owner-content" style="opacity:1;transform:none">
-
-        <div class="sec-tag" style="margin-bottom:20px;background:linear-gradient(135deg,#fff9e6,#fef3d0);color:#7a5e10;border-color:#e8d494">✦ Founder &amp; CEO</div>
-
+      <!-- Owner description -->
+      <div class="srr">
+        <div class="sec-tag" style="margin-bottom:18px">✦ Meet the Founder</div>
         <h2 class="owner-name">[Owner Full Name]</h2>
-        <div class="owner-role">Founder &amp; CEO — Abu-Shine Cleaning &amp; Fumigation Services</div>
-
-        <!-- Long-form bio -->
+        <div class="owner-role">Founder &amp; CEO — Abu-Shine Cleaning &amp; Fumigation</div>
         <p class="owner-bio">
-          Growing up, [Owner Name] saw first-hand how a truly clean, pest-free home changes the way a family feels — safer, healthier, more at peace. That personal conviction became the foundation of Abu-Shine.
-          <br/><br/>
-          With over <strong>10 years of hands-on experience</strong> in professional cleaning and pest management, [Owner Name] built Abu-Shine from a single-person operation into one of the region's most trusted names in the industry. The growth wasn't accidental — it was earned through <strong>showing up on time, doing exceptional work, and standing behind every result</strong>.
-          <br/><br/>
-          Today, [Owner Name] leads a <strong>certified team of professionals</strong>, each trained to the Abu-Shine standard: eco-friendly products, meticulous attention to detail, and a genuine care for the people in every space they clean. From a family's sofa to a five-star hotel's kitchen — the standard never changes.
-          <br/><br/>
-          "<em>I started this business because I believed Kenyans deserved better. Better service. Better results. A team they could actually trust in their homes.</em>"
+          With over <strong>10 years of hands-on experience</strong> in professional cleaning and pest management, [Owner Name] founded Abu-Shine with a clear and personal mission: to deliver <strong>world-class cleaning and fumigation services</strong> that Kenyan families and businesses can truly rely on — every single time.<br/><br/>
+          What started as a one-person operation has grown into a <strong>trusted team of certified professionals</strong>, equipped with the latest tools and eco-conscious products. [Owner Name] personally oversees quality on every job — because at Abu-Shine, excellence is never negotiable.<br/><br/>
+          Today, Abu-Shine proudly serves <strong>homeowners, Airbnb hosts, offices, restaurants, schools, and hotels</strong> across the region, building lasting relationships on trust, punctuality, and results that speak for themselves.
         </p>
-
-        <!-- Pull quote -->
         <div class="owner-quote">
-          <p>"We don't just clean spaces — we protect the people who live and work in them."</p>
-          <span>— [Owner Name], Founder of Abu-Shine</span>
+          <p>"We don't just clean spaces — we protect the people who live and work in them. Every job is a commitment, not just a service."</p>
+          <cite>— [Owner Name], Founder of Abu-Shine</cite>
         </div>
-
-        <!-- Values grid -->
         <div class="owner-vals">
-          <div class="oval">
-            <div class="oval-icon">🎯</div>
-            <div>
-              <span class="oval-title">Obsessed with Quality</span>
-              <span class="oval-sub">Every corner treated as if it's our own home</span>
-            </div>
-          </div>
-          <div class="oval">
-            <div class="oval-icon">🤝</div>
-            <div>
-              <span class="oval-title">Built on Trust</span>
-              <span class="oval-sub">Transparent pricing, honest communication, always</span>
-            </div>
-          </div>
-          <div class="oval">
-            <div class="oval-icon">🌿</div>
-            <div>
-              <span class="oval-title">Eco-Conscious</span>
-              <span class="oval-sub">Safe for your family, children, pets &amp; environment</span>
-            </div>
-          </div>
-          <div class="oval">
-            <div class="oval-icon">🏆</div>
-            <div>
-              <span class="oval-title">Results, Guaranteed</span>
-              <span class="oval-sub">Not satisfied? We return for free — no questions asked</span>
-            </div>
-          </div>
+          <div class="ov"><div class="ov-ic">🎯</div><div><span class="ov-t">Obsessed with Quality</span><span class="ov-s">Every corner treated as if it's our own home</span></div></div>
+          <div class="ov"><div class="ov-ic">🤝</div><div><span class="ov-t">Built on Trust</span><span class="ov-s">Transparent, honest, always reliable</span></div></div>
+          <div class="ov"><div class="ov-ic">🌿</div><div><span class="ov-t">Eco-Conscious</span><span class="ov-s">Safe for your family, pets &amp; environment</span></div></div>
+          <div class="ov"><div class="ov-ic">🏆</div><div><span class="ov-t">Guaranteed Results</span><span class="ov-s">We return for free if you're not satisfied</span></div></div>
         </div>
-
-        <!-- Credentials / quick facts -->
-        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px;padding:20px 24px;background:var(--mist);border-radius:var(--r);border:1px solid var(--lgray)">
-          <div style="text-align:center;flex:1;min-width:80px">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g3);line-height:1">10+</div>
-            <div style="font-size:.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Years Experience</div>
-          </div>
-          <div style="width:1px;background:var(--lgray)"></div>
-          <div style="text-align:center;flex:1;min-width:80px">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g3);line-height:1">500+</div>
-            <div style="font-size:.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Jobs Completed</div>
-          </div>
-          <div style="width:1px;background:var(--lgray)"></div>
-          <div style="text-align:center;flex:1;min-width:80px">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g3);line-height:1">14</div>
-            <div style="font-size:.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Services Offered</div>
-          </div>
-          <div style="width:1px;background:var(--lgray)"></div>
-          <div style="text-align:center;flex:1;min-width:80px">
-            <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g3);line-height:1">100%</div>
-            <div style="font-size:.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Satisfaction</div>
-          </div>
-        </div>
-
-        <!-- Signature -->
-        <div class="owner-sig">— [Owner Name]</div>
-
-        <!-- CTA under owner -->
-        <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
-          <a href="#booking" class="btn-mag btn-primary-mag" style="font-size:.85rem;padding:13px 26px">📋 Book a Service</a>
-          <a href="https://wa.me/254705004596" target="_blank" class="btn-mag btn-secondary-mag" style="font-size:.85rem;padding:13px 26px;border-color:rgba(15,26,20,.2);color:var(--ink);background:var(--mist)">💬 Chat with Us</a>
-        </div>
-
-      </div><!-- end owner-content -->
-    </div><!-- end owner-layout -->
+        <div class="owner-sig">— [Owner Name], Abu-Shine</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ══════════ COUNTER STRIP ══════════ -->
+<!-- ══ COUNTER ══ -->
 <div class="counter-strip">
   <div class="counter-inner">
-    <div class="cnt sr"><span class="cnt-n" data-target="500">0</span><span class="cnt-l">Happy Clients Served</span></div>
+    <div class="cnt sr"><span class="cnt-n" data-target="500" data-suffix="+">0</span><span class="cnt-l">Happy Clients Served</span></div>
     <div class="cnt sr d1"><span class="cnt-n" data-target="14">0</span><span class="cnt-l">Services Offered</span></div>
-    <div class="cnt sr d2"><span class="cnt-n" data-target="100">0</span><span class="cnt-l">% Satisfaction Rate</span></div>
+    <div class="cnt sr d2"><span class="cnt-n" data-target="100" data-suffix="%">0</span><span class="cnt-l">Satisfaction Rate</span></div>
     <div class="cnt sr d3"><span class="cnt-n" data-target="5">0</span><span class="cnt-l">Star Google Rating</span></div>
   </div>
 </div>
 
-<!-- ══════════ VIDEO ══════════ -->
-<section id="video">
-  <div class="sec-wrap">
-    <div class="vid-layout">
-      <!-- Player -->
-      <div class="vid-player srl">
-        <div class="vid-frame" id="vf" onclick="playVid()">
+<!-- ══ VIDEO ══ -->
+<section id="video" class="section">
+  <div class="wrap">
+    <div class="vid-grid">
+      <div class="vid-player sl">
+        <div class="vid-frame" onclick="playVid()">
+          <div class="vid-scanlines"></div>
           <div class="vid-overlay"></div>
-          <div class="play-center">
+          <div class="vid-play-wrap">
             <div class="play-ring"><span class="play-icon">▶</span></div>
-            <span class="play-lbl" id="playLbl">Watch Abu-Shine in Action</span>
+            <span class="play-lbl" id="play-lbl">Watch Abu-Shine in Action</span>
           </div>
-          <div class="vid-duration">2:34</div>
+          <div class="vid-dur">2:34</div>
+          <div class="vid-live"><span class="live-dot"></span> LIVE RESULTS</div>
         </div>
-        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(255,255,255,.4)">
-          <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;animation:blinkDot 1.6s infinite;display:inline-block"></span>
-          Click to play — real Abu-Shine transformation footage
-        </div>
+        <div class="vid-caption"><span class="vc-dot"></span>Click to play — real Abu-Shine transformation footage</div>
         <div class="vid-thumbs">
-          <div class="vthumb on" onclick="switchVid(0,this)">🛋️<span class="vthumb-lbl">Sofa</span></div>
-          <div class="vthumb" onclick="switchVid(1,this)">🐜<span class="vthumb-lbl">Pest</span></div>
-          <div class="vthumb" onclick="switchVid(2,this)">🏢<span class="vthumb-lbl">Office</span></div>
-          <div class="vthumb" onclick="switchVid(3,this)">🏡<span class="vthumb-lbl">House</span></div>
+          <div class="vt on" onclick="switchVid(0,this)">🛋️<span class="vt-l">Sofa</span></div>
+          <div class="vt" onclick="switchVid(1,this)">🐜<span class="vt-l">Pest</span></div>
+          <div class="vt" onclick="switchVid(2,this)">🏢<span class="vt-l">Office</span></div>
+          <div class="vt" onclick="switchVid(3,this)">🏡<span class="vt-l">House</span></div>
         </div>
       </div>
-      <!-- Content -->
       <div class="srr">
-        <div class="sec-tag" style="background:rgba(212,168,67,.1);color:var(--gold2);border-color:rgba(212,168,67,.15)">✦ See Our Work</div>
-        <h2 class="sec-h2 light">Watch the<br/><em>Transformation</em></h2>
-        <p class="sec-desc light" style="margin-bottom:32px">Before-and-after footage from our most impactful jobs. See exactly what Abu-Shine delivers — every single time.</p>
-        <div class="vid-feat">
-          <div class="vf"><div class="vf-icon">🎬</div><div><div class="vf-title">Real Before &amp; After Footage</div><div class="vf-desc">Actual job sites — no actors, no staging, just real Abu-Shine results.</div></div></div>
-          <div class="vf"><div class="vf-icon">🔬</div><div><div class="vf-title">Our Process, Explained</div><div class="vf-desc">Walk through our professional cleaning and fumigation methodology step by step.</div></div></div>
-          <div class="vf"><div class="vf-icon">💬</div><div><div class="vf-title">Client Testimonials on Camera</div><div class="vf-desc">Hear directly from homeowners and businesses who trust us every month.</div></div></div>
+        <div class="sec-tag lt">✦ See Our Work</div>
+        <h2 class="sec-h lt">Watch the<br/><em>Transformation</em></h2>
+        <p class="sec-d lt" style="margin-bottom:26px">Before-and-after footage from our most impactful jobs. No actors, no staging — just real Abu-Shine results.</p>
+        <div class="vid-feats">
+          <div class="vf"><div class="vf-ic">🎬</div><div><div class="vf-t">Real Before &amp; After Footage</div><div class="vf-d">Actual job sites — genuine transformations from our team.</div></div></div>
+          <div class="vf"><div class="vf-ic">🔬</div><div><div class="vf-t">Our Process, Explained</div><div class="vf-d">Walk through our cleaning and fumigation methodology step by step.</div></div></div>
+          <div class="vf"><div class="vf-ic">💬</div><div><div class="vf-t">Client Testimonials on Camera</div><div class="vf-d">Hear from homeowners and businesses who trust us every month.</div></div></div>
+          <div class="vf"><div class="vf-ic">📱</div><div><div class="vf-t">Follow for Weekly Content</div><div class="vf-d">New transformation videos every week on Instagram and TikTok.</div></div></div>
         </div>
         <div class="vid-socials">
-          <a href="#" class="vs-btn vs-ig">📸 Instagram</a>
-          <a href="#" class="vs-btn vs-tk">🎵 TikTok</a>
-          <a href="https://wa.me/254705004596" target="_blank" class="vs-btn vs-wa">💬 WhatsApp</a>
+          <a href="#" class="vs vs-ig">📸 Instagram</a>
+          <a href="#" class="vs vs-tt">🎵 TikTok</a>
+          <a href="https://wa.me/254705004596" target="_blank" rel="noopener" class="vs vs-wa">💬 WhatsApp</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ GALLERY ══════════ -->
-<section id="gallery">
-  <div class="sec-wrap">
-    <div class="sh c sr">
-      <div class="sec-tag">✦ Our Work</div>
-      <h2 class="sec-h2">Before &amp; <em>After</em></h2>
-      <p class="sec-desc">Real transformations — hover to reveal each story.</p>
+<!-- ══ GALLERY — BEFORE & AFTER ══ -->
+<section id="gallery" class="section">
+  <div class="wrap">
+    <div class="gallery-intro sr">
+      <div>
+        <div class="sec-tag">✦ Our Work</div>
+        <h2 class="sec-h">Before &amp; <em>After</em> Gallery</h2>
+        <p class="sec-d">Real transformations — hover each photo to reveal the story.</p>
+      </div>
+      <div class="gallery-filters">
+        <button class="gf-btn on" onclick="filterGal('all',this)">All</button>
+        <button class="gf-btn" onclick="filterGal('cleaning',this)">Cleaning</button>
+        <button class="gf-btn" onclick="filterGal('pest',this)">Pest Control</button>
+        <button class="gf-btn" onclick="filterGal('office',this)">Office</button>
+      </div>
     </div>
-    <div class="gal-grid sr">
-      <div class="gi"><div class="gi-bg gc1">🛋️</div><div class="gi-fog"></div><span class="gi-pill">Sofa Clean</span><div class="gi-info"><span class="gi-title">Sofa Deep Clean</span><span class="gi-sub">Before &amp; After — Stain removal &amp; sanitize</span></div></div>
-      <div class="gi"><div class="gi-bg gc2">🟫</div><div class="gi-fog"></div><span class="gi-pill">Carpet</span><div class="gi-info"><span class="gi-title">Carpet Restoration</span><span class="gi-sub">Before &amp; After — Steam clean</span></div></div>
-      <div class="gi"><div class="gi-bg gc3">🏢</div><div class="gi-fog"></div><span class="gi-pill">Office</span><div class="gi-info"><span class="gi-title">Office Cleaning</span><span class="gi-sub">Commercial deep clean</span></div></div>
-      <div class="gi"><div class="gi-bg gc4">🐜</div><div class="gi-fog"></div><span class="gi-pill">Pest Control</span><div class="gi-info"><span class="gi-title">Bed Bug Treatment</span><span class="gi-sub">Full room fumigation</span></div></div>
-      <div class="gi"><div class="gi-bg gc5">🏡</div><div class="gi-fog"></div><span class="gi-pill">House</span><div class="gi-info"><span class="gi-title">Full House Deep Clean</span><span class="gi-sub">Move-in ready in hours</span></div></div>
+    <div class="gal-bento sr">
+      <div class="gi" data-type="cleaning"><div class="gi-bg gc1">🛋️</div><div class="gi-veil"></div><span class="gi-tag">Sofa Clean</span><span class="gi-ba">BEFORE → AFTER</span><div class="gi-label"><span class="gi-title">Sofa Deep Clean</span><span class="gi-sub">Full stain removal &amp; sanitization — brand new look</span></div></div>
+      <div class="gi" data-type="cleaning"><div class="gi-bg gc2">🟫</div><div class="gi-veil"></div><span class="gi-tag">Carpet</span><span class="gi-ba">BEFORE → AFTER</span><div class="gi-label"><span class="gi-title">Carpet Restoration</span><span class="gi-sub">Steam clean &amp; deep extraction</span></div></div>
+      <div class="gi" data-type="office"><div class="gi-bg gc3">🏢</div><div class="gi-veil"></div><span class="gi-tag">Office</span><span class="gi-ba">BEFORE → AFTER</span><div class="gi-label"><span class="gi-title">Office Deep Clean</span><span class="gi-sub">Commercial space fully transformed</span></div></div>
+      <div class="gi" data-type="pest"><div class="gi-bg gc4">🐜</div><div class="gi-veil"></div><span class="gi-tag">Pest Control</span><span class="gi-ba">BEFORE → AFTER</span><div class="gi-label"><span class="gi-title">Bed Bug Treatment</span><span class="gi-sub">Full room fumigation — guaranteed pest-free</span></div></div>
+      <div class="gi" data-type="cleaning"><div class="gi-bg gc5">🏡</div><div class="gi-veil"></div><span class="gi-tag">House</span><span class="gi-ba">BEFORE → AFTER</span><div class="gi-label"><span class="gi-title">Full House Deep Clean</span><span class="gi-sub">Top-to-bottom — move-in ready in hours</span></div></div>
     </div>
-    <p style="text-align:center;margin-top:28px;font-size:.82rem;color:var(--gray)">📸 Add your real before/after photos here for maximum impact</p>
+    <p style="text-align:center;margin-top:24px;font-size:.8rem;color:var(--gray)">📸 Upload your real before &amp; after photos to replace these placeholders</p>
   </div>
 </section>
 
-<!-- ══════════ TESTIMONIALS ══════════ -->
-<section id="testimonials">
-  <div class="sec-wrap">
+<!-- ══ TESTIMONIALS ══ -->
+<section id="testimonials" class="section">
+  <div class="wrap">
     <div class="sh c sr">
-      <div class="sec-tag" style="background:rgba(212,168,67,.1);color:var(--gold2);border-color:rgba(212,168,67,.2)">✦ Client Reviews</div>
-      <h2 class="sec-h2 light">What Our <em>Clients Say</em></h2>
-      <p class="sec-desc light">Real words. Real clients. Real results.</p>
+      <div class="sec-tag lt">✦ Client Reviews</div>
+      <h2 class="sec-h lt">What Our <em>Clients Say</em></h2>
+      <p class="sec-d lt">Real words. Real clients. Real results.</p>
     </div>
     <div class="t-grid">
-      <div class="tc sr"><div class="tc-stars">★★★★★</div><p class="tc-text">Abu-Shine transformed my entire apartment. The sofa and carpet look brand new. Incredibly professional team — punctual, thorough, and genuine.</p><div class="tc-author"><div class="tc-av" style="background:var(--g3)">A</div><div><span class="tc-name">Amara K.</span><span class="tc-role">Homeowner</span></div></div></div>
-      <div class="tc sr d1"><div class="tc-stars">★★★★★</div><p class="tc-text">We had a serious bed bug problem and Abu-Shine handled it completely. Fast, affordable, and thorough. Our Airbnb guests are comfortable again!</p><div class="tc-author"><div class="tc-av" style="background:var(--gold)">J</div><div><span class="tc-name">James M.</span><span class="tc-role">Airbnb Host</span></div></div></div>
-      <div class="tc sr d2"><div class="tc-stars">★★★★★</div><p class="tc-text">Our office has never been cleaner. Discreet, efficient, thorough. We're now on a monthly contract and couldn't be happier with the results.</p><div class="tc-author"><div class="tc-av" style="background:#334155">S</div><div><span class="tc-name">Sarah O.</span><span class="tc-role">Office Manager</span></div></div></div>
-      <div class="tc sr"><div class="tc-stars">★★★★★</div><p class="tc-text">Post-construction cleaning done to absolute perfection. Removed all dust and debris. Move-in ready within hours. 100% recommend.</p><div class="tc-author"><div class="tc-av" style="background:#7c3aed">P</div><div><span class="tc-name">Peter N.</span><span class="tc-role">Property Manager</span></div></div></div>
-      <div class="tc sr d1"><div class="tc-stars">★★★★★</div><p class="tc-text">Our restaurant cockroach problem sorted professionally and discreetly. We passed our hygiene inspection with flying colours. Brilliant service.</p><div class="tc-author"><div class="tc-av" style="background:#dc2626">F</div><div><span class="tc-name">Fatuma L.</span><span class="tc-role">Restaurant Owner</span></div></div></div>
-      <div class="tc sr d2"><div class="tc-stars">★★★★★</div><p class="tc-text">School full deep clean before term — delivered beyond our expectations. Professional team, safe products, spotless results. Will call every semester.</p><div class="tc-author"><div class="tc-av" style="background:#0891b2">B</div><div><span class="tc-name">Brian W.</span><span class="tc-role">School Administrator</span></div></div></div>
+      <div class="tc sr"><div class="tc-stars">★★★★★</div><p class="tc-text">Abu-Shine transformed my entire apartment. Sofa and carpet look completely brand new. Highly professional, punctual, and very thorough team.</p><div class="tc-auth"><div class="tc-av" style="background:var(--g3)">A</div><div><span class="tc-name">Amara K.</span><span class="tc-role">Homeowner, Nairobi</span></div></div></div>
+      <div class="tc sr d1"><div class="tc-stars">★★★★★</div><p class="tc-text">Serious bed bug problem handled completely. Affordable, fast, and thorough. Our Airbnb guests are comfortable again — cannot recommend highly enough!</p><div class="tc-auth"><div class="tc-av" style="background:var(--gold)">J</div><div><span class="tc-name">James M.</span><span class="tc-role">Airbnb Host</span></div></div></div>
+      <div class="tc sr d2"><div class="tc-stars">★★★★★</div><p class="tc-text">Our office has never been this clean. Discreet, efficient, thorough — we're now on a monthly contract with Abu-Shine and couldn't be happier.</p><div class="tc-auth"><div class="tc-av" style="background:#334155">S</div><div><span class="tc-name">Sarah O.</span><span class="tc-role">Office Manager</span></div></div></div>
+      <div class="tc sr"><div class="tc-stars">★★★★★</div><p class="tc-text">Post-construction cleaning done to absolute perfection. Removed all dust and debris. The apartment was move-in ready within hours. 100% recommend!</p><div class="tc-auth"><div class="tc-av" style="background:#7c3aed">P</div><div><span class="tc-name">Peter N.</span><span class="tc-role">Property Manager</span></div></div></div>
+      <div class="tc sr d1"><div class="tc-stars">★★★★★</div><p class="tc-text">The cockroach problem at our restaurant was handled professionally and discreetly. We passed our hygiene inspection with flying colours. Outstanding!</p><div class="tc-auth"><div class="tc-av" style="background:#dc2626">F</div><div><span class="tc-name">Fatuma L.</span><span class="tc-role">Restaurant Owner</span></div></div></div>
+      <div class="tc sr d2"><div class="tc-stars">★★★★★</div><p class="tc-text">School full deep clean before term — delivered beyond expectations. Safe products, thorough results. We call Abu-Shine every semester now!</p><div class="tc-auth"><div class="tc-av" style="background:#0891b2">B</div><div><span class="tc-name">Brian W.</span><span class="tc-role">School Administrator</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ BOOKING ══════════ -->
-<section id="booking">
-  <div class="sec-wrap">
+<!-- ══ BOOKING ══ -->
+<section id="booking" class="section">
+  <div class="wrap">
     <div class="book-grid">
-      <div class="book-left srl">
+      <div class="sl">
         <div class="sec-tag">✦ Book Now</div>
-        <h2 class="sec-h2">Get a <em>Free Quote</em></h2>
-        <p class="sec-desc">Tell us what you need and we'll respond within the hour. Or reach us directly right now.</p>
+        <h2 class="sec-h">Get a <em>Free Quote</em></h2>
+        <p class="sec-d book-desc">Tell us what you need and we'll respond within the hour. Or reach us directly — we're always available.</p>
         <div class="cstack">
-          <a href="tel:0705004596" class="citem"><div class="ci-icon" style="background:var(--mist)">📞</div><div><span class="ci-label">Call Us</span><span class="ci-val">0705 004 596</span></div></a>
-          <a href="https://wa.me/254705004596" target="_blank" class="citem"><div class="ci-icon" style="background:#dcfce7">💬</div><div><span class="ci-label">WhatsApp</span><span class="ci-val">Chat Instantly</span></div></a>
-          <a href="mailto:info@abu-shine.com" class="citem"><div class="ci-icon" style="background:#fefce8">✉️</div><div><span class="ci-label">Email</span><span class="ci-val">info@abu-shine.com</span></div></a>
-          <div class="citem"><div class="ci-icon" style="background:var(--mist)">⏰</div><div><span class="ci-label">Hours</span><span class="ci-val">Mon–Sun 7am–7pm</span></div></div>
+          <a href="tel:0705004596" class="ci"><div class="ci-ic" style="background:var(--mist)">📞</div><div><span class="ci-l">Call Us</span><span class="ci-v">0705 004 596</span></div></a>
+          <a href="https://wa.me/254705004596?text=Hello%20Abu-Shine!%20I%27d%20like%20a%20free%20quote." target="_blank" rel="noopener" class="ci">
+            <div class="ci-ic" style="background:#dcfce7">
+              <svg viewBox="0 0 32 32" width="22" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.67 4.614 1.832 6.514L4 29l7.686-1.812A12.93 12.93 0 0016 28c6.627 0 12-5.373 12-12S22.627 3 16 3z" fill="#25D366"/><path d="M21.386 18.314c-.308-.154-1.817-.897-2.099-1-.282-.103-.487-.154-.692.154-.205.308-.795.997-1 1.205-.182.205-.359.231-.667.077-.308-.154-1.3-.48-2.477-1.53-.915-.818-1.533-1.828-1.713-2.136-.18-.308-.019-.475.135-.628.14-.138.308-.359.462-.539.154-.18.205-.308.308-.513.103-.205.051-.385-.026-.539-.077-.154-.692-1.667-.948-2.283-.25-.601-.503-.52-.692-.53-.18-.009-.385-.011-.59-.011-.205 0-.539.077-.82.385-.282.308-1.077 1.052-1.077 2.565 0 1.513 1.103 2.974 1.257 3.18.154.205 2.17 3.31 5.257 4.64.735.317 1.308.506 1.755.648.737.235 1.409.202 1.939.123.591-.088 1.817-.743 2.074-1.46.257-.718.257-1.333.18-1.46-.077-.128-.282-.205-.59-.359z" fill="white"/></svg>
+            </div>
+            <div><span class="ci-l">WhatsApp</span><span class="ci-v">Chat Instantly</span></div>
+          </a>
+          <a href="mailto:info@abu-shine.com" class="ci"><div class="ci-ic" style="background:#fefce8">✉️</div><div><span class="ci-l">Email</span><span class="ci-v">info@abu-shine.com</span></div></a>
+          <div class="ci"><div class="ci-ic" style="background:var(--mist)">⏰</div><div><span class="ci-l">Working Hours</span><span class="ci-v">Mon–Sun 7am–7pm</span></div></div>
         </div>
       </div>
       <div class="book-form srr">
         <h3>Request a Quote</h3>
-        <div id="bForm">
+        <div id="b-form">
           <div class="frow">
-            <div class="fg"><label>Full Name *</label><input type="text" id="fn" placeholder="Your name"/></div>
-            <div class="fg"><label>Phone *</label><input type="tel" id="fp" placeholder="07xx xxx xxx"/></div>
+            <div class="fg"><label>Full Name *</label><input type="text" id="f-name" placeholder="Your full name"/></div>
+            <div class="fg"><label>Phone Number *</label><input type="tel" id="f-phone" placeholder="07xx xxx xxx"/></div>
           </div>
-          <div class="fg"><label>Email</label><input type="email" id="fe" placeholder="your@email.com"/></div>
+          <div class="fg"><label>Email Address</label><input type="email" id="f-email" placeholder="your@email.com"/></div>
           <div class="fg">
             <label>Service Required *</label>
-            <select id="fs">
+            <select id="f-service">
               <option value="">Select a service...</option>
-              <optgroup label="— Cleaning Services —">
+              <optgroup label="Cleaning Services">
                 <option>Sofa Cleaning</option><option>Mattress Cleaning</option><option>Carpet Cleaning</option>
                 <option>General House Cleaning</option><option>Office Cleaning</option>
                 <option>Post-Construction Cleaning</option><option>Kitchen &amp; Washroom Deep Clean</option>
               </optgroup>
-              <optgroup label="— Fumigation &amp; Pest Control —">
+              <optgroup label="Fumigation &amp; Pest Control">
                 <option>Bed Bug Treatment</option><option>Cockroach Control</option>
                 <option>Rat &amp; Mice Control</option><option>Mosquito Fumigation</option>
                 <option>Termite Treatment</option><option>Ant Control</option><option>General Pest Control</option>
@@ -1376,201 +391,93 @@ footer{background:#030a05;padding:80px 6% 36px}
             </select>
           </div>
           <div class="frow">
-            <div class="fg"><label>Your Location</label><input type="text" id="fl" placeholder="Estate / area"/></div>
-            <div class="fg"><label>Preferred Date</label><input type="date" id="fd"/></div>
+            <div class="fg"><label>Your Location</label><input type="text" id="f-location" placeholder="Estate / area"/></div>
+            <div class="fg"><label>Preferred Date</label><input type="date" id="f-date"/></div>
           </div>
-          <div class="fg"><label>Additional Details</label><textarea id="fm" placeholder="Tell us more about your space or the issue..."></textarea></div>
-          <button class="btn-submit" onclick="submitForm()">📨 Send My Request →</button>
+          <div class="fg"><label>Additional Details</label><textarea id="f-message" placeholder="Tell us more about your space or problem..."></textarea></div>
+          <button class="btn-book" onclick="submitForm()">📨 Send My Request →</button>
         </div>
-        <div class="form-ok" id="formOk">
-          <div class="form-ok-icon">✅</div>
+        <div class="form-ok" id="form-ok">
+          <div class="ok-ico">✅</div>
           <h4>Request Received!</h4>
-          <p>Thank you! Our team will contact you within the hour to confirm your booking.</p>
+          <p>Thank you! Our team will contact you within the hour to confirm your booking details.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ LOCATION ══════════ -->
-<section id="location">
-  <div class="sec-wrap">
+<!-- ══ LOCATION ══ -->
+<section id="location" class="section">
+  <div class="wrap">
     <div class="loc-grid">
-      <div class="srl">
+      <div class="sl">
         <div class="sec-tag">✦ Find Us</div>
-        <h2 class="sec-h2">Our <em>Location</em></h2>
-        <p class="sec-desc" style="margin-bottom:28px">We serve clients across the city and surrounding areas. Contact us to confirm coverage in your area.</p>
+        <h2 class="sec-h">Our <em>Location</em></h2>
+        <p class="sec-d" style="margin-bottom:24px">We serve clients across the city and surrounding areas. Contact us to confirm we cover your location.</p>
         <div class="loc-rows">
-          <div class="loc-row"><div class="loc-row-ic">📞</div><span><strong>0705 004 596</strong></span></div>
-          <div class="loc-row"><div class="loc-row-ic">💬</div><span><strong>WhatsApp:</strong> 0705 004 596</span></div>
-          <div class="loc-row"><div class="loc-row-ic">✉️</div><span><strong>Email:</strong> info@abu-shine.com</span></div>
-          <div class="loc-row"><div class="loc-row-ic">⏰</div><span><strong>Mon–Sat</strong> 7am–7pm &bull; <strong>Sun</strong> 8am–5pm</span></div>
-          <div class="loc-row"><div class="loc-row-ic">🚐</div><span>Mobile service — <strong>We come to you!</strong></span></div>
+          <div class="lr"><div class="lr-ic">📞</div><span><strong>0705 004 596</strong></span></div>
+          <div class="lr"><div class="lr-ic">💬</div><span><strong>WhatsApp:</strong> 0705 004 596</span></div>
+          <div class="lr"><div class="lr-ic">✉️</div><span><strong>Email:</strong> info@abu-shine.com</span></div>
+          <div class="lr"><div class="lr-ic">⏰</div><span><strong>Mon–Sat</strong> 7am–7pm · <strong>Sun</strong> 8am–5pm</span></div>
+          <div class="lr"><div class="lr-ic">🚐</div><span>Mobile service — <strong>We come to you!</strong></span></div>
         </div>
-        <a href="https://maps.google.com" target="_blank" class="map-btn">📍 Open in Google Maps</a>
+        <a href="https://maps.google.com" target="_blank" rel="noopener" class="map-btn">📍 Open in Google Maps</a>
       </div>
       <div class="srr">
-        <div class="map-frame">
+        <div class="map-box">
           <div class="map-ic">📍</div>
-          <div class="map-lbl">Google Maps Embed Goes Here<br/><small>Paste your iframe code to activate the live map</small></div>
-          <a href="https://maps.google.com" target="_blank" class="map-btn">View on Google Maps</a>
+          <div class="map-lbl">Google Maps Embed Goes Here<br/><small style="opacity:.65">Paste your iframe code to activate the live map</small></div>
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="map-btn">View on Google Maps</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ FOOTER ══════════ -->
+<!-- ══ FOOTER ══ -->
 <footer>
   <div class="foot-inner">
     <div class="foot-top">
       <div>
-        <div class="foot-brand-name">Abu&#8209;<span>Shine</span></div>
+        <span class="foot-name">Abu&#8209;<em>Shine</em></span>
         <span class="foot-sub">Cleaning &amp; Fumigation Services</span>
-        <p class="foot-desc">Professional cleaning and pest control you can trust — every time. Clean spaces, healthier lives. That's our promise to every client.</p>
-        <div class="foot-socials">
-          <a href="#" class="fs" title="Instagram">📸</a>
-          <a href="#" class="fs" title="Facebook">👍</a>
-          <a href="#" class="fs" title="TikTok">🎵</a>
-          <a href="https://wa.me/254705004596" class="fs" title="WhatsApp">💬</a>
+        <p class="foot-desc">Professional cleaning and pest control you can trust — every time. Clean spaces, healthier lives. That's our promise to every client, every single visit.</p>
+        <div class="foot-socs">
+          <a href="#" class="fsoc" title="Instagram">📸</a>
+          <a href="#" class="fsoc" title="Facebook">👍</a>
+          <a href="#" class="fsoc" title="TikTok">🎵</a>
+          <a href="https://wa.me/254705004596" target="_blank" rel="noopener" class="fsoc" title="WhatsApp">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="white"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.95-1.418A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm4.29 13.735c-.23.645-1.357 1.23-1.867 1.292-.51.062-.99.293-3.337-.695-2.789-1.148-4.572-3.96-4.71-4.142-.136-.182-1.11-1.477-1.11-2.815 0-1.337.7-1.995 1.002-2.27.27-.247.565-.31.75-.31h.54c.17 0 .406-.065.635.485.234.56.797 1.935.866 2.074.069.14.115.303.023.487-.09.183-.135.298-.268.458-.133.16-.28.358-.4.482-.133.136-.272.282-.117.552.155.27.69 1.138 1.482 1.843.82.726 1.508.952 1.78 1.057.27.104.427.087.585-.052.157-.14.672-.786.852-1.056.18-.27.36-.225.608-.135.248.09 1.577.745 1.847.88.27.135.45.203.517.315.066.11.066.643-.164 1.29z"/></svg>
+          </a>
         </div>
       </div>
       <div class="foot-col"><h5>Cleaning</h5><ul><li><a href="#services">Sofa Cleaning</a></li><li><a href="#services">Mattress Cleaning</a></li><li><a href="#services">Carpet Cleaning</a></li><li><a href="#services">House Cleaning</a></li><li><a href="#services">Office Cleaning</a></li><li><a href="#services">Post-Construction</a></li><li><a href="#services">Kitchen Deep Clean</a></li></ul></div>
       <div class="foot-col"><h5>Pest Control</h5><ul><li><a href="#services">Bed Bug Treatment</a></li><li><a href="#services">Cockroach Control</a></li><li><a href="#services">Rat &amp; Mice Control</a></li><li><a href="#services">Mosquito Fumigation</a></li><li><a href="#services">Termite Treatment</a></li><li><a href="#services">Ant Control</a></li><li><a href="#services">General Pest Control</a></li></ul></div>
-      <div class="foot-col"><h5>Contact</h5><ul class="foot-contact"><li><span class="fci">📞</span><span>0705 004 596</span></li><li><span class="fci">💬</span><span>WhatsApp: 0705 004 596</span></li><li><span class="fci">✉️</span><span>info@abu-shine.com</span></li><li><span class="fci">📸</span><span>@abushineservices</span></li><li><span class="fci">⏰</span><span>Mon–Sun: 7am–7pm</span></li><li><span class="fci">🚐</span><span>Mobile — We come to you!</span></li></ul></div>
+      <div class="foot-col"><h5>Contact</h5><ul class="fcontact"><li><span class="fci">📞</span><span>0705 004 596</span></li><li><span class="fci">💬</span><span>WhatsApp: 0705 004 596</span></li><li><span class="fci">✉️</span><span>info@abu-shine.com</span></li><li><span class="fci">📸</span><span>@abushineservices</span></li><li><span class="fci">⏰</span><span>Mon–Sun: 7am–7pm</span></li><li><span class="fci">🚐</span><span>Mobile — We come to you!</span></li></ul></div>
     </div>
     <div class="foot-bottom">
       <span>© 2025 Abu-Shine Cleaning &amp; Fumigation Services. All rights reserved.</span>
-      <div class="foot-chips"><span class="fchip">🌿 Eco-Friendly</span><span class="fchip">🔒 Insured</span><span class="fchip">⭐ 5-Star Rated</span><span class="fchip">✅ Guaranteed</span></div>
+      <div class="fchips"><span class="fchip">🌿 Eco-Friendly</span><span class="fchip">🔒 Fully Insured</span><span class="fchip">⭐ 5-Star Rated</span><span class="fchip">✅ Guaranteed</span></div>
     </div>
   </div>
 </footer>
 
-<!-- FLOATING BUTTONS -->
-<a href="https://wa.me/254705004596?text=Hello%20Abu-Shine!%20I'd%20like%20a%20free%20quote." target="_blank" class="wa-btn">💬<span class="wa-tip">Chat on WhatsApp</span></a>
-<a href="tel:0705004596" class="call-btn">📞 0705 004 596</a>
+<!-- ══ REAL WHATSAPP FLOAT ══ -->
+<a href="https://wa.me/254705004596?text=Hello%20Abu-Shine!%20I%27d%20like%20a%20free%20quote." target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.67 4.614 1.832 6.514L4 29l7.686-1.812A12.93 12.93 0 0016 28c6.627 0 12-5.373 12-12S22.627 3 16 3z" fill="white"/>
+    <path d="M21.386 18.314c-.308-.154-1.817-.897-2.099-1-.282-.103-.487-.154-.692.154-.205.308-.795.997-1 1.205-.182.205-.359.231-.667.077-.308-.154-1.3-.48-2.477-1.53-.915-.818-1.533-1.828-1.713-2.136-.18-.308-.019-.475.135-.628.14-.138.308-.359.462-.539.154-.18.205-.308.308-.513.103-.205.051-.385-.026-.539-.077-.154-.692-1.667-.948-2.283-.25-.601-.503-.52-.692-.53-.18-.009-.385-.011-.59-.011-.205 0-.539.077-.82.385-.282.308-1.077 1.052-1.077 2.565 0 1.513 1.103 2.974 1.257 3.18.154.205 2.17 3.31 5.257 4.64.735.317 1.308.506 1.755.648.737.235 1.409.202 1.939.123.591-.088 1.817-.743 2.074-1.46.257-.718.257-1.333.18-1.46-.077-.128-.282-.205-.59-.359z" fill="#0a1f0e"/>
+  </svg>
+  <span class="wa-tooltip">Chat on WhatsApp</span>
+</a>
 
-<!-- ══════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════ -->
-<script>
-/* ── LOADER ── */
-window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('out'),1800));
+<!-- ══ CALL FLOAT ══ -->
+<a href="tel:0705004596" class="call-float">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.03 1.22 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+  0705 004 596
+</a>
 
-/* ── CUSTOM CURSOR ── */
-const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-let rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
-  rx+=(e.clientX-rx)*.14;ry+=(e.clientY-ry)*.14;
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-});
-function raf(){rx+=(parseFloat(cur.style.left||0)-rx)*.14;ry+=(parseFloat(cur.style.top||0)-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf)}
-raf();
-document.querySelectorAll('a,button,.svc-card,.wb,.tc,.gi,.vthumb').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-expand'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-expand'));
-});
-
-/* ── PARTICLES ── */
-(function(){
-  const c=document.getElementById('particles'),ctx=c.getContext('2d');
-  let W,H,pts=[];
-  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
-  resize();window.addEventListener('resize',resize);
-  for(let i=0;i<60;i++)pts.push({x:Math.random()*1920,y:Math.random()*1080,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,o:Math.random()*.4+.1});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    pts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
-      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${Math.random()>.5?'212,168,67':'21,92,50'},${p.o})`;
-      ctx.fill();
-    });
-    // connections
-    pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
-      const d=Math.hypot(a.x-b.x,a.y-b.y);
-      if(d<120){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(21,92,50,${.08*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke()}
-    }));
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ── NAV ── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('solid',window.scrollY>60));
-nav.classList.add('solid'); // always solid for visibility
-function toggleNav(){document.getElementById('mobMenu').classList.toggle('open');document.getElementById('hbg').classList.toggle('open')}
-function closeNav(){document.getElementById('mobMenu').classList.remove('open');document.getElementById('hbg').classList.remove('open')}
-
-/* ── SERVICE FILTER ── */
-function fSvc(cat,btn){
-  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.querySelectorAll('.svc-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'});
-}
-
-/* ── OPEN QUOTE ── */
-function openQuote(s){document.getElementById('fs').value=s;document.getElementById('booking').scrollIntoView({behavior:'smooth'})}
-
-/* ── VIDEO ── */
-const vids=['Sofa Deep Clean Transformation','Pest Control Treatment','Office Deep Clean','House Full Clean'];
-function playVid(){document.querySelector('.play-ring').style.background='var(--g3)';document.getElementById('playLbl').textContent='Now Playing...'}
-function switchVid(i,el){document.querySelectorAll('.vthumb').forEach(t=>t.classList.remove('on'));el.classList.add('on');document.getElementById('playLbl').textContent='Watch: '+vids[i];document.querySelector('.play-ring').style.background='rgba(255,255,255,.08)'}
-
-/* ── FORM ── */
-function submitForm(){
-  const n=document.getElementById('fn').value.trim();
-  const p=document.getElementById('fp').value.trim();
-  const s=document.getElementById('fs').value;
-  if(!n||!p||!s){alert('Please fill in your name, phone, and service.');return}
-  document.getElementById('bForm').style.display='none';
-  document.getElementById('formOk').style.display='block';
-}
-
-/* ── COUNTER ANIMATION ── */
-function animateCounter(el){
-  const target=+el.dataset.target;
-  if(!target)return;
-  const suffix=el.textContent.replace(/[0-9]/g,'');
-  let start=0,dur=1800,begin=null;
-  function step(ts){
-    if(!begin)begin=ts;
-    const progress=Math.min((ts-begin)/dur,1);
-    const ease=1-Math.pow(1-progress,4);
-    el.textContent=Math.floor(ease*target)+suffix;
-    if(progress<1)requestAnimationFrame(step);
-    else el.textContent=target+suffix;
-  }
-  requestAnimationFrame(step);
-}
-
-/* ── SCROLL REVEAL ── */
-const ro=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('show');
-      // trigger counters
-      e.target.querySelectorAll('[data-target]').forEach(animateCounter);
-      if(e.target.dataset.target)animateCounter(e.target);
-    }
-  });
-},{threshold:.1});
-document.querySelectorAll('.sr,.srl,.srr,.cnt-n').forEach(el=>ro.observe(el));
-
-/* ── MAGNETIC BUTTONS ── */
-document.querySelectorAll('.btn-mag').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    const x=e.clientX-r.left-r.width/2;
-    const y=e.clientY-r.top-r.height/2;
-    btn.style.transform=`translate(${x*.18}px,${y*.18}px)`;
-  });
-  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
-});
-</script>
+<script src="js/app.js"></script>
 </body>
 </html>
